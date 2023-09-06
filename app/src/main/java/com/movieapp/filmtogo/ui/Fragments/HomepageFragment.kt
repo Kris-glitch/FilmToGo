@@ -1,13 +1,14 @@
-package com.movieapp.filmtogo
+package com.movieapp.filmtogo.ui.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.movieapp.filmtogo.R
 
 
-class UserSetupFourthFragment : Fragment() {
+class HomepageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,8 +20,7 @@ class UserSetupFourthFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_setup_fourth, container, false)
+        return inflater.inflate(R.layout.fragment_homepage, container, false)
     }
-
 
 }

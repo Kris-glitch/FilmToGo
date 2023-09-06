@@ -1,4 +1,4 @@
-package com.movieapp.filmtogo
+package com.movieapp.filmtogo.ui.Activities
 
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.movieapp.filmtogo.R
 import com.movieapp.filmtogo.databinding.ActivitySignupBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -72,16 +73,13 @@ class SignupActivity : AppCompatActivity() {
             Log.d(TAG, "createUserWithEmail:success")
 
             runOnUiThread {
-                val intent = Intent(this@SignupActivity, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                finish()
+                goToSetup()
             }
         } catch (e: Exception) {
             runOnUiThread {
                 Toast.makeText(
                     baseContext,
-                    "Something went wrong. Try again later.",
+                    "Something went wrong. Please try again later.",
                     Toast.LENGTH_LONG
                 ).show()
                 Log.w(TAG, "createUserWithEmail:failure", e)
@@ -102,6 +100,14 @@ class SignupActivity : AppCompatActivity() {
 
     private fun goToHomepage() {
         var intent : Intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("isLoggedIn", true)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun goToSetup() {
+        var intent : Intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("shouldSetupProfile", true)
         startActivity(intent)
         finish()
     }

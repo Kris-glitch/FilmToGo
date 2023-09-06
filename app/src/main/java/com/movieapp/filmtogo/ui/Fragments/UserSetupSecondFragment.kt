@@ -1,10 +1,11 @@
-package com.movieapp.filmtogo
+package com.movieapp.filmtogo.ui.Fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.movieapp.filmtogo.R
 
 
 class UserSetupSecondFragment : Fragment() {

@@ -39,5 +39,6 @@
     <string name="download">Download</string>
     <string name="cast">Cast:</string>
     <string name="edit_profile">edit profile</string>
+    <string name="hello_new_user">Hello New user!</string>
 
 </resources>

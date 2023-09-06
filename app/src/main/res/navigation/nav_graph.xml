@@ -6,7 +6,7 @@
     app:startDestination="@id/userSetupFirstPageFragment">
     <fragment
         android:id="@+id/userSetupFirstPageFragment"
-        android:name="com.movieapp.filmtogo.UserSetupFirstPageFragment"
+        android:name="com.movieapp.filmtogo.ui.Fragments.UserSetupFirstPageFragment"
         android:label="UserSetupFirstPageFragment" >
         <action
             android:id="@+id/userSetup_FirstToSecond"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/userSetupSecondFragment"
-        android:name="com.movieapp.filmtogo.UserSetupSecondFragment"
+        android:name="com.movieapp.filmtogo.ui.Fragments.UserSetupSecondFragment"
         android:label="UserSetupSecondFragment" >
         <action
             android:id="@+id/userSetup_SecondToThird"
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/userSetupThirdFragment"
-        android:name="com.movieapp.filmtogo.UserSetupThirdFragment"
+        android:name="com.movieapp.filmtogo.ui.Fragments.UserSetupThirdFragment"
         android:label="UserSetupThirdFragment" >
         <action
             android:id="@+id/userSetup_thirdToFourth"
@@ -30,6 +30,14 @@
     </fragment>
     <fragment
         android:id="@+id/userSetupFourthFragment"
-        android:name="com.movieapp.filmtogo.UserSetupFourthFragment"
-        android:label="UserSetupFourthFragment" />
+        android:name="com.movieapp.filmtogo.ui.Fragments.UserSetupFourthFragment"
+        android:label="UserSetupFourthFragment" >
+        <action
+            android:id="@+id/action_userSetupFourthFragment_to_homepageFragment"
+            app:destination="@id/homepageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homepageFragment"
+        android:name="com.movieapp.filmtogo.ui.Fragments.HomepageFragment"
+        android:label="HomepageFragment" />
 </navigation>
