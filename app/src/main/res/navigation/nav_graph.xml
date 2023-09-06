@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/userSetupFirstPageFragment">
+    <fragment
+        android:id="@+id/userSetupFirstPageFragment"
+        android:name="com.movieapp.filmtogo.UserSetupFirstPageFragment"
+        android:label="UserSetupFirstPageFragment" >
+        <action
+            android:id="@+id/userSetup_FirstToSecond"
+            app:destination="@id/userSetupSecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userSetupSecondFragment"
+        android:name="com.movieapp.filmtogo.UserSetupSecondFragment"
+        android:label="UserSetupSecondFragment" >
+        <action
+            android:id="@+id/userSetup_SecondToThird"
+            app:destination="@id/userSetupThirdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userSetupThirdFragment"
+        android:name="com.movieapp.filmtogo.UserSetupThirdFragment"
+        android:label="UserSetupThirdFragment" >
+        <action
+            android:id="@+id/userSetup_thirdToFourth"
+            app:destination="@id/userSetupFourthFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userSetupFourthFragment"
+        android:name="com.movieapp.filmtogo.UserSetupFourthFragment"
+        android:label="UserSetupFourthFragment" />
+</navigation>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "509357566065",
+    "project_id": "film-to-go",
+    "storage_bucket": "film-to-go.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509357566065:android:071da0a529cc2bfc33d3d0",
+        "android_client_info": {
+          "package_name": "com.movieapp.filmtogo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509357566065-m82t41q70nfmbn0jfhdl3bcj53s706ds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.movieapp.filmtogo",
+            "certificate_hash": "d4740068d1b3b06d2f22cc9775d03e0cb3429a04"
+          }
+        },
+        {
+          "client_id": "509357566065-vlqg6ms47janvsgpb22s065mjov5ocad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUnyi2kph3y-xZayQUoNdDxK9327v40A0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509357566065-vlqg6ms47janvsgpb22s065mjov5ocad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
