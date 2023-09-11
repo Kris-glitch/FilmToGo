@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "509357566065",
+    "firebase_url": "https://film-to-go-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "film-to-go",
     "storage_bucket": "film-to-go.appspot.com"
   },

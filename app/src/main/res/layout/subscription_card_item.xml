@@ -4,11 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/sub_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
         app:cardCornerRadius="16sp"
         app:cardElevation="16sp"
+        android:layout_marginBottom="16sp"
         android:shadowColor="@color/material_on_background_emphasis_medium"
         >
         <LinearLayout
@@ -44,6 +45,7 @@
                 android:id="@+id/descOne"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
                 android:drawableStart="@drawable/baseline_check_24"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16sp"
@@ -57,12 +59,13 @@
                 android:id="@+id/descTwo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
                 android:drawableStart="@drawable/baseline_check_24"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/kanitregular"
-                android:text=" Stream up to 10 movies"
+                android:text=" Stream movies and TV shows in standard definition (SD)"
                 android:textColor="@color/white"
                 android:textSize="22sp" />
 
@@ -70,6 +73,8 @@
                 android:id="@+id/descThree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+
                 android:drawableStart="@drawable/baseline_check_24"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"

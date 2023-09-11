@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/userSetupFirstPageFragment">
+    app:startDestination="@id/userSetupWelcomeFragment">
     <fragment
-        android:id="@+id/userSetupFirstPageFragment"
-        android:name="com.movieapp.filmtogo.ui.Fragments.UserSetupFirstPageFragment"
-        android:label="UserSetupFirstPageFragment" >
+        android:id="@+id/userSetupWelcomeFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.UserSetupWelcomeFragment"
+        android:label="UserSetupWelcomeFragment" >
         <action
-            android:id="@+id/userSetup_FirstToSecond"
-            app:destination="@id/userSetupSecondFragment" />
+            android:id="@+id/action_userSetupWelcomeFragment_to_userSetupSubscriptionFragment"
+            app:destination="@id/userSetupSubscriptionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userSetupSecondFragment"
-        android:name="com.movieapp.filmtogo.ui.Fragments.UserSetupSecondFragment"
-        android:label="UserSetupSecondFragment" >
+        android:id="@+id/userSetupSubscriptionFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.UserSetupSubscriptionFragment"
+        android:label="UserSetupSubscriptionFragment" >
         <action
-            android:id="@+id/userSetup_SecondToThird"
-            app:destination="@id/userSetupThirdFragment" />
+            android:id="@+id/action_userSetupSubscriptionFragment_to_userSetupBillingFragment"
+            app:destination="@id/userSetupBillingFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userSetupThirdFragment"
-        android:name="com.movieapp.filmtogo.ui.Fragments.UserSetupThirdFragment"
-        android:label="UserSetupThirdFragment" >
+        android:id="@+id/userSetupBillingFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.UserSetupBillingFragment"
+        android:label="UserSetupBillingFragment" >
         <action
-            android:id="@+id/userSetup_thirdToFourth"
-            app:destination="@id/userSetupFourthFragment" />
+            android:id="@+id/action_userSetupBillingFragment_to_userSetuptPreferencesFragment"
+            app:destination="@id/userSetuptPreferencesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/userSetupFourthFragment"
-        android:name="com.movieapp.filmtogo.ui.Fragments.UserSetupFourthFragment"
-        android:label="UserSetupFourthFragment" >
+        android:id="@+id/userSetuptPreferencesFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.UserSetuptPreferencesFragment"
+        android:label="UserSetuptPreferencesFragment" >
         <action
-            android:id="@+id/action_userSetupFourthFragment_to_homepageFragment"
+            android:id="@+id/action_userSetuptPreferencesFragment_to_homepageFragment"
             app:destination="@id/homepageFragment" />
     </fragment>
     <fragment
         android:id="@+id/homepageFragment"
-        android:name="com.movieapp.filmtogo.ui.Fragments.HomepageFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.HomepageFragment"
         android:label="HomepageFragment" />
 </navigation>

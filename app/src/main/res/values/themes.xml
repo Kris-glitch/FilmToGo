@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.FilmToGo" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.FilmToGo" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/darkest</item>
+        <item name="colorSecondary">@color/blue_dark</item>
+        <item name="colorTertiary">@color/blue_light</item>
+        <item name="colorAccent">@color/red_orange</item>
+        <item name="fontFamily">@font/kanitbold</item>
+    </style>
+
 </resources>
