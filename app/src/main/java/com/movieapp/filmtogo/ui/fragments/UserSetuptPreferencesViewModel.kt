@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class UserSetuptPreferencesViewModel(val app: Application, private val repository: Repository) : AndroidViewModel(app){
 
     private val _movieGenres = MutableLiveData<List<Genre>?>()
-    private var movieGenres : LiveData<List<Genre>?> = MutableLiveData()
+    var movieGenres : LiveData<List<Genre>?> = MutableLiveData()
 
     fun searchGenres(): LiveData<List<Genre>?> {
         viewModelScope.launch(Dispatchers.IO) {

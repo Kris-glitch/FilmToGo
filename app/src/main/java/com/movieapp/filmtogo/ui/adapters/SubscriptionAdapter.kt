@@ -11,7 +11,7 @@ import com.movieapp.filmtogo.R
 class SubscriptionAdapter(private val subscriptions: List<Subscription>, private val onItemClick: (Subscription) -> Unit)
     : RecyclerView.Adapter<SubscriptionAdapter.SubscriptionViewHolder>() {
 
-    private var selectedItem: Subscription? = null
+    private var selectedItem : Subscription? = null
 
     inner class SubscriptionViewHolder(val binding : SubscriptionCardItemBinding) : RecyclerView.ViewHolder(binding.root) {
         init {

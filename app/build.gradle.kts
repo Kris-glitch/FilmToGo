@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
+    id ("kotlin-parcelize")
+
 
 }
 
@@ -51,6 +53,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 }
 
 dependencies {
@@ -109,15 +112,18 @@ dependencies {
     implementation ("androidx.paging:paging-runtime:3.2.1")
 
     //View model
-    val lifecycle_version = "2.6.1"
-    implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
+    val lifecycleVersion = "2.6.2"
+    implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycleVersion")
 
     // LiveData
-    implementation ("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
+    implementation ("androidx.lifecycle:lifecycle-livedata:$lifecycleVersion")
 
     // GLide
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
+
+    // Flexbox for RecyclerView
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
 
 

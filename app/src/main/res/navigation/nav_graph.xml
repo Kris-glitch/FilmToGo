@@ -33,10 +33,14 @@
         android:label="UserSetuptPreferencesFragment" >
         <action
             android:id="@+id/action_userSetuptPreferencesFragment_to_homepageFragment"
-            app:destination="@id/homepageFragment" />
+            app:destination="@id/homepageFragment"/>
     </fragment>
     <fragment
         android:id="@+id/homepageFragment"
         android:name="com.movieapp.filmtogo.ui.fragments.HomepageFragment"
-        android:label="HomepageFragment" />
+        android:label="HomepageFragment">
+        <argument
+            android:name="selectedGenres"
+            app:argType="com.movieapp.filmtogo.modelRemote.Genre" />
+    </fragment>
 </navigation>

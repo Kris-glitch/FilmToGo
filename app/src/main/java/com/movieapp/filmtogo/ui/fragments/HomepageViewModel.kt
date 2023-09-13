@@ -19,25 +19,25 @@ class HomepageViewModel (val app: Application, private val repository: Repositor
 
 
     private val _movieByNameResponse = MutableLiveData<List<Movie>?>()
-    var movieByNameResponse : LiveData<List<Movie>?> = MutableLiveData()
+    private var movieByNameResponse : LiveData<List<Movie>?> = MutableLiveData()
 
     private val _movieByNameResponseNextPage = MutableLiveData<List<Movie>?>()
-    var movieByNameResponseNextPage : LiveData<List<Movie>?> = MutableLiveData()
+    private var movieByNameResponseNextPage : LiveData<List<Movie>?> = MutableLiveData()
 
     private val _movieByGenreResponse = MutableLiveData<List<Movie>?>()
-    var movieByGenreResponse : LiveData<List<Movie>?> = MutableLiveData()
+    private var movieByGenreResponse : LiveData<List<Movie>?> = MutableLiveData()
 
     private val _movieByGenreResponseNextPage = MutableLiveData<List<Movie>?>()
-    var movieByGenreResponseNextPage : LiveData<List<Movie>?> = MutableLiveData()
+    private var movieByGenreResponseNextPage : LiveData<List<Movie>?> = MutableLiveData()
 
     private val _movieRecommended = MutableLiveData<List<Movie>?>()
-    var movieRecommended : LiveData<List<Movie>?> = MutableLiveData()
+    private var movieRecommended : LiveData<List<Movie>?> = MutableLiveData()
 
     private val _movieRecommendedNextPage = MutableLiveData<List<Movie>?>()
-    var movieRecommendedNextPage : LiveData<List<Movie>?> = MutableLiveData()
+    private var movieRecommendedNextPage : LiveData<List<Movie>?> = MutableLiveData()
 
     private val _movieGenres = MutableLiveData<List<Genre>?>()
-    var movieGenres : LiveData<List<Genre>?> = MutableLiveData()
+    private var movieGenres : LiveData<List<Genre>?> = MutableLiveData()
 
 
     suspend fun searchMovieByName (query: String, page: Int)  :LiveData<List<Movie>?> {
