@@ -24,7 +24,7 @@ import com.movieapp.filmtogo.ui.adapters.SubscriptionAdapter
 
 class UserSetupSubscriptionFragment : Fragment() {
 
-    private var _binding : FragmentUserSetupSubscriptionBinding?= null
+    private lateinit var _binding : FragmentUserSetupSubscriptionBinding
     private val binding get() = _binding!!
     private var selectedSubscription: Subscription? = null
 

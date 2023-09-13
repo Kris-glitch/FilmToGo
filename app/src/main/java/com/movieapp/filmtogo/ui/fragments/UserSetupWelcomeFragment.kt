@@ -20,7 +20,7 @@ import com.movieapp.filmtogo.databinding.FragmentUserSetupWelcomeBinding
 
 class UserSetupWelcomeFragment : Fragment(R.layout.fragment_user_setup_welcome) {
 
-    private var _binding : FragmentUserSetupWelcomeBinding ?= null
+    private lateinit var _binding : FragmentUserSetupWelcomeBinding
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
