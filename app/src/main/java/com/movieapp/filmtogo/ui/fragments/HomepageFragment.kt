@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
 import com.movieapp.filmtogo.databinding.FragmentHomepageBinding
 
 
@@ -24,7 +26,6 @@ class HomepageFragment : Fragment() {
         _binding = FragmentHomepageBinding.inflate(inflater, container, false)
         return binding.root
 
-        val selectedGenres = requireArguments().getBundle("selectedGenres")
     }
 
 

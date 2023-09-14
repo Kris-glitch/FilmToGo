@@ -9,8 +9,8 @@ buildscript {
     }
 }
 plugins {
-    id("com.android.application") version "8.1.1" apply false
+    id("com.android.application") version "8.0.2" apply false
     id("org.jetbrains.kotlin.android") version "1.8.10" apply false
     id("com.google.gms.google-services") version "4.3.15" apply false
-    id("org.jetbrains.kotlin.kapt") version "1.9.20-Beta"
+    id("org.jetbrains.kotlin.kapt") version "1.9.0"
 }

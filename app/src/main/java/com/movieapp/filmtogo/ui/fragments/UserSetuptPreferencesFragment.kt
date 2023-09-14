@@ -1,24 +1,33 @@
 package com.movieapp.filmtogo.ui.fragments
 
+import android.app.Application
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.movieapp.filmtogo.R
+import com.movieapp.filmtogo.data.Repository
 
 import com.movieapp.filmtogo.databinding.FragmentUserSetupPreferencesBinding
 import com.movieapp.filmtogo.modelRemote.Genre
+import com.movieapp.filmtogo.ui.activities.MainActivity
 import com.movieapp.filmtogo.ui.adapters.PreferencesAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 
 class UserSetuptPreferencesFragment : Fragment() {
@@ -27,6 +36,8 @@ class UserSetuptPreferencesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: PreferencesAdapter
+
+    private val recommendationsDatabase = Firebase.database.getReference("Recommendations")
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
@@ -37,7 +48,7 @@ class UserSetuptPreferencesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = ViewModelProvider(this)[UserSetuptPreferencesViewModel::class.java]
+        val viewModel = (activity as MainActivity).preferencesViewModel
         viewModel.searchGenres()
 
         val recyclerView = binding.chooseCategories
@@ -62,11 +73,35 @@ class UserSetuptPreferencesFragment : Fragment() {
             if (selectedGenres == null || selectedGenres.size < 3) {
                 Toast.makeText(requireContext(), "Please select minimum 3 genres.", Toast.LENGTH_SHORT).show()
             } else {
-                val bundle = bundleOf("selectedGenres" to selectedGenres)
-                it.findNavController().navigate(R.id.action_userSetuptPreferencesFragment_to_homepageFragment, bundle)
+                lifecycleScope.launch(Dispatchers.IO){
+                    saveDataForRecommendation(selectedGenres)
+                }
+                it.findNavController().navigate(R.id.action_userSetuptPreferencesFragment_to_homepageFragment)
 
             }
         })
     }
+
+    private suspend fun saveDataForRecommendation(selectedGenres : List<Genre>) {
+        try {
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            if (currentUser != null) {
+                val userID = currentUser.uid
+                val hashMap : HashMap<String, List<Genre>> = hashMapOf("cardNumber" to selectedGenres)
+
+                val databaseRef = recommendationsDatabase.child(userID)
+
+                databaseRef.setValue(hashMap).await()
+
+                Log.d(ContentValues.TAG, "saveDataForRecommendation:success")
+            }
+        } catch (e: Exception) {
+            requireActivity().runOnUiThread {
+                Toast.makeText(requireView().context,"Something went wrong. Please try again later.",Toast.LENGTH_LONG).show()
+                Log.w(ContentValues.TAG, "saveDataForRecommendation:failure", e)
+            }
+        }
+    }
 }
+
 

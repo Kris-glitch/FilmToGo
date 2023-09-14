@@ -56,11 +56,13 @@ class UserSetupBillingFragment : Fragment() {
                                 cardDateValue,
                                 cardCVVValue
                             )
-                            requireView().findNavController().navigate(R.id.action_userSetupBillingFragment_to_userSetuptPreferencesFragment)
                         } catch (e: Exception) {
                                 Log.e(TAG, "saveCardInformation:failure", e)
                         }
                     }
+
+                    requireView().findNavController().navigate(R.id.action_userSetupBillingFragment_to_userSetuptPreferencesFragment)
+
                 } catch (e: SignupActivity.InvalidRegistrationException) {
                     Toast.makeText(requireContext(), "" + e.message, Toast.LENGTH_SHORT).show()
 
