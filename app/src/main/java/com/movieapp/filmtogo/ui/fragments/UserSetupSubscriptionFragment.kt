@@ -1,41 +1,42 @@
 package com.movieapp.filmtogo.ui.fragments
 
-import android.content.ContentValues
+
 import android.os.Bundle
-import android.util.Log
+
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.movieapp.filmtogo.R
+import com.movieapp.filmtogo.data.ProvideUser
 import com.movieapp.filmtogo.databinding.FragmentUserSetupSubscriptionBinding
 import com.movieapp.filmtogo.modelRemote.Subscription
-import com.movieapp.filmtogo.modelRemote.User
 import com.movieapp.filmtogo.ui.adapters.SubscriptionAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class UserSetupSubscriptionFragment : Fragment() {
 
     private lateinit var _binding : FragmentUserSetupSubscriptionBinding
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private var selectedSubscription: Subscription? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUserSetupSubscriptionBinding.inflate(inflater, container, false)
         return binding.root
 
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val provideUser = ProvideUser()
 
         val recyclerView = binding.chooseSubscription
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -48,40 +49,19 @@ class UserSetupSubscriptionFragment : Fragment() {
 
         binding.saveBtn.setOnClickListener {
             if (selectedSubscription != null) {
-                updateUserSubscription(selectedSubscription!!);
-                it.findNavController().navigate(R.id.action_userSetupSubscriptionFragment_to_userSetupBillingFragment)
+                try {
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        provideUser.updateUserSubscription(selectedSubscription!!)
+                        withContext(Dispatchers.Main) {
+                            it.findNavController().navigate(R.id.action_userSetupSubscriptionFragment_to_userSetupBillingFragment)
+                        }
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(requireView().context,"Something went wrong, check your connection",Toast.LENGTH_LONG).show()
+                }
             } else {
                 Toast.makeText(requireContext(), "Please select a subscription.", Toast.LENGTH_SHORT).show()
             }
-        }
-    }
-
-    private fun updateUserSubscription(selectedSubscription: Subscription) {
-        val currentUser = FirebaseAuth.getInstance().currentUser
-
-        if (currentUser != null) {
-            val userID = currentUser.uid
-            val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(userID)
-
-            databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        val user = dataSnapshot.getValue(User::class.java)
-                        user?.subscription = selectedSubscription.sub_title
-
-                        databaseRef.setValue(user).addOnSuccessListener {
-                            Log.d(ContentValues.TAG, "Subscription change:success")
-                        }.addOnFailureListener {
-                            Log.d(ContentValues.TAG, "Subscription change:FAILED")
-                            Toast.makeText(view!!.context, "Something went wrong, check your connection", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Toast.makeText(view!!.context,"Something went wrong, check your connection",Toast.LENGTH_LONG).show()
-                }
-            })
         }
     }
 

@@ -22,16 +22,14 @@
                     android:layout_height="wrap_content"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/categories_recyclerView"
+                    android:id="@+id/genres_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/genres_of_nested_recyclerView"
+                    android:id="@+id/movie_by_genre_recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-
-
 
                 <include layout="@layout/bottom_navigation_bar"/>
             </androidx.appcompat.widget.LinearLayoutCompat>

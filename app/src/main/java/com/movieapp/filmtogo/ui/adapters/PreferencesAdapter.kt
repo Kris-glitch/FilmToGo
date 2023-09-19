@@ -4,16 +4,28 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.movieapp.filmtogo.R
 import com.movieapp.filmtogo.databinding.CategoriesItemBinding
 import com.movieapp.filmtogo.modelRemote.Genre
 import java.util.Random
 
-class PreferencesAdapter (private val genresList : List<Genre>) : RecyclerView.Adapter<PreferencesAdapter.PreferencesViewHolder>() {
+class PreferencesAdapter : RecyclerView.Adapter<PreferencesAdapter.PreferencesViewHolder>() {
 
     private val selectedItems: MutableList<Genre> = mutableListOf()
+    private var genresList: List<Genre> = emptyList()
+
+    private val differ: AsyncListDiffer<Genre> = AsyncListDiffer(this, GenreDiffCallback())
+
+    fun updateDataset(newGenresList: List<Genre>) {
+        differ.submitList(newGenresList)
+        genresList = newGenresList
+    }
+
     inner class PreferencesViewHolder(val binding: CategoriesItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         init {
             itemView.setOnClickListener {
                 val adapterPosition = bindingAdapterPosition
@@ -24,22 +36,23 @@ class PreferencesAdapter (private val genresList : List<Genre>) : RecyclerView.A
                     } else {
                         selectedItems.add(clickedItem)
                     }
-                    notifyDataSetChanged()
+                    updateBackgroundColor(selectedItems.contains(clickedItem))
                 }
             }
         }
-
         fun bind(genre: Genre, isSelected: Boolean) {
             binding.genreName.text = genre.name
+            updateBackgroundColor(isSelected)
+            binding.executePendingBindings()
+        }
 
-            val backgroundColor =
-                if (isSelected) {
-                    R.color.blue_dark
-                } else {
-                    generateRandomPastelColor()
-                }
-
-            binding.genreCard.setCardBackgroundColor(binding.root.context.getColor(backgroundColor))
+        private fun updateBackgroundColor(isSelected: Boolean) {
+            val backgroundColor = if (isSelected) {
+                binding.root.context.getColor(R.color.blue_dark)
+            } else {
+                generateRandomPastelColor()
+            }
+            binding.genreCard.setCardBackgroundColor(backgroundColor)
         }
     }
 
@@ -70,4 +83,14 @@ class PreferencesAdapter (private val genresList : List<Genre>) : RecyclerView.A
         return Color.rgb(red, green, blue)
     }
 
+    class GenreDiffCallback : DiffUtil.ItemCallback<Genre>() {
+
+        override fun areItemsTheSame(oldItem: Genre, newItem: Genre): Boolean {
+            return oldItem.id == newItem.id && oldItem.name == newItem.name
+        }
+
+        override fun areContentsTheSame(oldItem: Genre, newItem: Genre): Boolean {
+            return oldItem == newItem
+        }
+    }
 }

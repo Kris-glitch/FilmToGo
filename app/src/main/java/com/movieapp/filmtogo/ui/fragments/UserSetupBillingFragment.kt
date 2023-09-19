@@ -10,27 +10,21 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.movieapp.filmtogo.R
-import com.movieapp.filmtogo.databinding.FragmentHomepageBinding
+import com.movieapp.filmtogo.data.remote.ProvideStorage
 import com.movieapp.filmtogo.databinding.FragmentUserSetupBillingBinding
-import com.movieapp.filmtogo.ui.activities.SignupActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class UserSetupBillingFragment : Fragment() {
 
     private lateinit var _binding : FragmentUserSetupBillingBinding
-    private val binding get() = _binding!!
-
-    private val billingDatabaseRef = Firebase.database.getReference("Billing")
+    private val binding get() = _binding
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
         _binding = FragmentUserSetupBillingBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -38,56 +32,49 @@ class UserSetupBillingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val provideStorage = ProvideStorage()
+
         binding.apply {
 
-            saveBtn.setOnClickListener(View.OnClickListener {
-                val cardNumberValue : String = cardNumber.text.toString()
-                val cardHolderValue : String = cardholder.text.toString().trim()
-                val cardDateValue : String = cardDate.text.toString().trim()
-                val cardCVVValue : String = cardCVV.text.toString()
+            saveBtn.setOnClickListener {
+                val cardNumberValue: String = cardNumber.text.toString()
+                val cardHolderValue: String = cardholder.text.toString().trim()
+                val cardDateValue: String = cardDate.text.toString().trim()
+                val cardCVVValue: String = cardCVV.text.toString()
 
                 try {
                     cardValidation(cardNumberValue, cardHolderValue, cardDateValue, cardCVVValue)
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        try {
-                            saveCardInformation(
+
+                    try {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            provideStorage.saveCardInformation(
                                 cardNumberValue,
                                 cardHolderValue,
                                 cardDateValue,
                                 cardCVVValue
                             )
-                        } catch (e: Exception) {
-                                Log.e(TAG, "saveCardInformation:failure", e)
+
+                            withContext(Dispatchers.Main) {
+                                it.findNavController()
+                                    .navigate(R.id.action_userSetupBillingFragment_to_userSetuptPreferencesFragment)
+                            }
                         }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "saveCardInformation:failure", e)
+                        Toast.makeText(
+                            requireView().context,
+                            "Something went wrong. Please try again later.",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
-
-                    requireView().findNavController().navigate(R.id.action_userSetupBillingFragment_to_userSetuptPreferencesFragment)
-
-                } catch (e: SignupActivity.InvalidRegistrationException) {
+                } catch (e: InvalidRegistrationException) {
                     Toast.makeText(requireContext(), "" + e.message, Toast.LENGTH_SHORT).show()
 
                 }
-            })
+            }
         }
     }
-    private suspend fun saveCardInformation(cardNumber : String, cardHolder : String, cardDate : String, cardCVV : String) {
-        try {
-            val currentUser = FirebaseAuth.getInstance().currentUser
-            if (currentUser != null) {
-                val userID = currentUser.uid
-                val hashMap: HashMap<String, String> = createHash(userID, cardNumber, cardHolder, cardDate, cardCVV)
 
-                val databaseRef = billingDatabaseRef.child(userID)
-                databaseRef.setValue(hashMap).await()
-                Log.d(TAG, "saveCardInformation:success")
-            }
-        } catch (e: Exception) {
-            requireActivity().runOnUiThread {
-                Toast.makeText(requireView().context,"Something went wrong. Please try again later.",Toast.LENGTH_LONG).show()
-                Log.w(TAG, "saveCardInformation:failure", e)
-            }
-        }
-    }
 
     private fun createHash(userID: String, cardNumber: String, cardHolder: String, cardDate: String, cardCVV: String): HashMap<String, String> {
         return hashMapOf(
@@ -156,22 +143,22 @@ class UserSetupBillingFragment : Fragment() {
     @Throws(InvalidRegistrationException::class)
     fun cardValidation(cardNumber : String, cardHolder : String, cardDate : String, cardCVV : String) {
         if (TextUtils.isEmpty(cardNumber)) {
-            throw SignupActivity.InvalidRegistrationException("Please enter card number")
+            throw InvalidRegistrationException("Please enter card number")
         }
         if (TextUtils.isEmpty(cardHolder)) {
-            throw SignupActivity.InvalidRegistrationException("Please enter card holder")
+            throw InvalidRegistrationException("Please enter card holder")
         }
         if (TextUtils.isEmpty(cardDate)) {
-            throw SignupActivity.InvalidRegistrationException("Please enter card expiration date")
+            throw InvalidRegistrationException("Please enter card expiration date")
         }
         if (TextUtils.isEmpty(cardCVV)) {
-            throw SignupActivity.InvalidRegistrationException("Please enter card CVV number")
+            throw InvalidRegistrationException("Please enter card CVV number")
         }
         if (!isValidCardNumber (cardNumber)) {
-            throw SignupActivity.InvalidRegistrationException("Invalid card number")
+            throw InvalidRegistrationException("Invalid card number")
         }
         if (!isValidExpirationDate(cardDate)) {
-            throw SignupActivity.InvalidRegistrationException("Invalid expiration date")
+            throw InvalidRegistrationException("Invalid expiration date")
         }
     }
 

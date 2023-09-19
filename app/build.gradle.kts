@@ -78,7 +78,6 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
 
-
     //Navigation
     val nav_version = "2.7.1"
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")

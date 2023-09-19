@@ -7,21 +7,22 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
 import com.movieapp.filmtogo.R
+import com.movieapp.filmtogo.data.ProvideUser
 import com.movieapp.filmtogo.databinding.ActivityLoginBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), ProvideUser.UserLoginCallback {
 
-    private lateinit var auth: FirebaseAuth
+    private val provideUser = ProvideUser(null, this)
     private lateinit var binding : ActivityLoginBinding
 
 
     public override fun onStart() {
         super.onStart()
-        auth = FirebaseAuth.getInstance()
-        val currentUser = auth.currentUser
+        val currentUser = provideUser.currentUser
         if (currentUser != null) {
             goToHomepage()
         }
@@ -31,44 +32,54 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
-        auth = FirebaseAuth.getInstance()
 
         binding.apply {
 
-            newUserBtn.setOnClickListener(View.OnClickListener {
+            newUserBtn.setOnClickListener {
                 goToSignup()
-            })
+            }
 
-            loginBtn.setOnClickListener(View.OnClickListener {
+            loginBtn.setOnClickListener {
                 val email = emailLogin.text.toString().trim()
                 val password = passwordLogin.text.toString().trim()
 
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(this@LoginActivity, "Please provide username and password", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Please provide username and password",
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
-                    auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(
-                     OnCompleteListener { task ->
-                         if (task.isSuccessful){
-                             goToHomepage()
-                         } else {
-                             Toast.makeText(this@LoginActivity, "Wrong email or password", Toast.LENGTH_SHORT).show()
-                         }
-                     })
+                    CoroutineScope(Dispatchers.IO).launch {
+                        provideUser.login(email, password)
+                    }
                 }
-            })
+            }
         }
 
     }
 
+    override fun onSuccess() {
+        CoroutineScope(Dispatchers.Main).launch {
+            goToHomepage()
+        }
+    }
+
+    override fun onError(errorMessage: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            Toast.makeText(this@LoginActivity, "Wrong email or password", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun goToHomepage() {
-        var intent : Intent = Intent(this, MainActivity::class.java)
+        val intent : Intent = Intent(this, MainActivity::class.java)
         intent.putExtra("isLoggedIn", true)
         startActivity(intent)
         finish()
     }
 
     private fun goToSignup() {
-        var intent : Intent = Intent(this, SignupActivity::class.java)
+        val intent : Intent = Intent(this, SignupActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class UserSetuptPreferencesViewModel(val app: Application, private val repository: Repository) : AndroidViewModel(app){
 
     private val _movieGenres = MutableLiveData<List<Genre>?>()
-    var movieGenres : LiveData<List<Genre>?> = MutableLiveData()
+
 
     fun searchGenres(): LiveData<List<Genre>?> {
         viewModelScope.launch(Dispatchers.IO) {
@@ -26,15 +26,17 @@ class UserSetuptPreferencesViewModel(val app: Application, private val repositor
 
                 if (result != null) {
                     _movieGenres.postValue(result)
-                    movieGenres = _movieGenres
+                    _movieGenres.value?.let { genres ->
+                        Log.d(ContentValues.TAG, "searchGenres from ViewModel: $genres")
+                    }
                 } else {
-                    Log.d(ContentValues.TAG, "searchGenres: Response error - null")
+                    Log.d(ContentValues.TAG, "searchGenres from ViewModel: Response error - null")
                 }
             } catch (e: Exception) {
-                Log.d(ContentValues.TAG, "searchGenres: Coroutine failure", e)
+                Log.d(ContentValues.TAG, "searchGenres from ViewModel: Coroutine failure", e)
             }
         }
-        return movieGenres
+        return _movieGenres
     }
 
 }
