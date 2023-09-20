@@ -1,44 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@color/darkest">
 
         <ScrollView
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_navigation_bar"
+            android:layout_marginStart="16sp"
+            android:layout_marginTop="16sp"
+            android:layout_marginEnd="16sp"
+            android:layout_marginBottom="16sp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recommended_movies"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/kanitbold"
+                    android:textColor="@color/white"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recommended_recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_by_genre"
+                    android:textSize="26sp"
+                    android:fontFamily="@font/kanitbold"
+                    android:textColor="@color/white"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/genres_recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/movie_by_genre_recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
-                <include layout="@layout/bottom_navigation_bar"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </ScrollView>
 
-    </LinearLayout>
+        <include
+            android:id="@+id/bottom_navigation_bar"
+            layout="@layout/bottom_navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"/>
 
-
-
-
+    </RelativeLayout>
 </layout>
+
+
+
+
+

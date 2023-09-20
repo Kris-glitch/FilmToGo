@@ -12,31 +12,14 @@ class Repository {
         val apiClient : ApiClient by lazy { ApiClient() }
     }
 
-
     suspend fun searchMovieByName (query: String, page: Int) : List<Movie>?{
         return withContext(Dispatchers.IO) {
             apiClient.searchMovieByName(query, page)
         }
     }
-    suspend fun searchMovieByNameNextPage(query: String, currentPage: Int) : List<Movie>? {
-        return withContext(Dispatchers.IO) {
-            val nextPage = currentPage + 1
-            val nextPageResults = searchMovieByName(query, nextPage) ?: return@withContext emptyList()
-            val currentPageResults = searchMovieByName(query, currentPage) ?: emptyList()
-            currentPageResults + nextPageResults
-        }
-    }
     suspend fun searchMovieByGenre (genreId: Int, page: Int) : List<Movie>? {
         return withContext(Dispatchers.IO) {
-            searchMovieByGenre(genreId, page)
-        }
-    }
-    suspend fun searchMovieByGenreNextPage (genreId: Int, currentPage: Int) : List<Movie>? {
-        return withContext(Dispatchers.IO) {
-            val nextPage = currentPage + 1
-            val nextPageResults = searchMovieByGenre(genreId, nextPage) ?: return@withContext emptyList()
-            val currentPageResults = searchMovieByGenre(genreId, currentPage) ?: emptyList()
-            currentPageResults + nextPageResults
+            apiClient.searchMovieByGenre(genreId, page)
         }
     }
     suspend fun searchRecommended(genreIds: String, sortBy: String, page: Int) : List<Movie>? {
@@ -45,14 +28,6 @@ class Repository {
         }
     }
 
-    suspend fun searchRecommendedNextPage(genreIds: String, sortBy: String, currentPage: Int) : List<Movie>? {
-        return withContext(Dispatchers.IO) {
-            val nextPage = currentPage + 1
-            val nextPageResults = searchRecommended(genreIds, sortBy, nextPage) ?: return@withContext emptyList()
-            val currentPageResults = searchRecommended(genreIds, sortBy, currentPage) ?: emptyList()
-            currentPageResults + nextPageResults
-        }
-    }
 
     suspend fun searchGenres() : List<Genre>?{
        return withContext(Dispatchers.IO){

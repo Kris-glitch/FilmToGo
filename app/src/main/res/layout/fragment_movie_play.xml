@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/darkest"
+        tools:context=".VideoPlayerActivity">
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/movie_is_playing"
+            android:textColor="@color/white"
+            android:fontFamily="@font/kanitbold"
+            android:textSize="18sp"
+            android:padding="8dp"
+            android:gravity="center" />
+
+        <ImageButton
+            android:id="@+id/playPauseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="26sp"
+            android:background="?android:selectableItemBackground"
+            android:src="@drawable/baseline_play_circle_24"
+            android:contentDescription="@string/Play"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <SeekBar
+            android:id="@+id/videoProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/playPauseButton"
+            android:layout_marginBottom="16dp"
+            android:max="100"
+            android:layout_centerHorizontal="true"
+            android:thumb="@null" />
+
+        <TextView
+            android:id="@+id/progressTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26sp"
+            android:layout_marginTop="8sp"
+            android:textColor="@color/white"
+            android:layout_below="@id/videoProgressBar"
+            android:text="@string/movie_duration"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/controlButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/videoProgressBar"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/rewindButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:layout_marginStart="26sp"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/baseline_fast_rewind_24"
+                android:contentDescription="@string/rewind"
+                android:layout_weight="1"/>
+
+            <ImageButton
+                android:id="@+id/forwardButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8sp"
+                android:layout_marginEnd="26sp"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/baseline_fast_forward_24"
+                android:contentDescription="@string/forward"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

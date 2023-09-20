@@ -39,5 +39,33 @@
         android:id="@+id/homepageFragment"
         android:name="com.movieapp.filmtogo.ui.fragments.HomepageFragment"
         android:label="HomepageFragment">
+        <action
+            android:id="@+id/action_homepageFragment_to_moviePlayFragment"
+            app:destination="@id/moviePlayFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/moviePlayFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.MoviePlayFragment"
+        android:label="MoviePlayFragment" />
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.MovieDetailFragment"
+        android:label="MovieDetailFragment" >
+        <argument
+            android:name="movie"
+            app:argType="com.movieapp.filmtogo.modelRemote.Movie" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_moviePlayFragment"
+            app:destination="@id/moviePlayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.ProfileFragment"
+        android:label="ProfileFragment" />
 </navigation>

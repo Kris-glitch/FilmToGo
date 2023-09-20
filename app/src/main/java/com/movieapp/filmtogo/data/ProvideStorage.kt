@@ -1,10 +1,11 @@
-package com.movieapp.filmtogo.data.remote
+package com.movieapp.filmtogo.data
 
 import android.content.ContentValues
 import android.util.Log
+import com.google.android.play.core.integrity.e
+import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.movieapp.filmtogo.data.ProvideUser
 import com.movieapp.filmtogo.modelRemote.Genre
 import kotlinx.coroutines.tasks.await
 
@@ -46,17 +47,39 @@ class ProvideStorage{
         try {
             if (currentUser != null) {
                 val userID = currentUser.uid
-                val hashMap : HashMap<String, List<Genre>> = hashMapOf("genre" to selectedGenres)
 
                 val databaseRef = recommendationsDatabase.child(userID)
 
-                databaseRef.setValue(hashMap).await()
+                databaseRef.setValue(selectedGenres).await()
 
                 Log.d(ContentValues.TAG, "saveDataForRecommendation:success")
             }
         } catch (e: Exception) {
                 Log.w(ContentValues.TAG, "saveDataForRecommendation:failure", e)
         }
+    }
+
+    suspend fun getPreferredGenres() : List<Genre>?{
+        try {
+            if (currentUser != null) {
+                val userID = currentUser.uid
+                val databaseRef = recommendationsDatabase.child(userID)
+                val dataSnapshot = databaseRef.get().await()
+
+                return if (dataSnapshot.exists()) {
+                    val selectedGenres = dataSnapshot.getValue(object : GenericTypeIndicator<List<Genre>>() {})
+                    selectedGenres
+                } else {
+                    Log.w(ContentValues.TAG, "getPreferredGenres:data doesn't exist")
+                    null
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(ContentValues.TAG, "getPreferredGenres:failure", e)
+
+        }
+        return null
+
     }
 
 }

@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.movieapp.filmtogo.R
-import com.movieapp.filmtogo.data.remote.ProvideStorage
+import com.movieapp.filmtogo.data.ProvideStorage
 import com.movieapp.filmtogo.databinding.FragmentUserSetupBillingBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

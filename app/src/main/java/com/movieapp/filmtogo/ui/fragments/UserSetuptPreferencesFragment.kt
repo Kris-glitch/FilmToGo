@@ -14,7 +14,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.movieapp.filmtogo.R
-import com.movieapp.filmtogo.data.remote.ProvideStorage
+import com.movieapp.filmtogo.data.ProvideStorage
 import com.movieapp.filmtogo.databinding.FragmentUserSetupPreferencesBinding
 import com.movieapp.filmtogo.modelRemote.Genre
 import com.movieapp.filmtogo.ui.activities.MainActivity

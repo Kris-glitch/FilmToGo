@@ -36,7 +36,8 @@ class MovieByGenreAdapter(private val onItemClick: (Movie) -> Unit) : RecyclerVi
 
         fun bind (movie : Movie, isSelected : Boolean){
             binding.movieTitle.text = movie.title
-            Glide.with(binding.root.context).load(movie.poster_path).into(binding.movieImage)
+            Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500/"
+                    + movie.poster_path).into(binding.movieImage)
             binding.executePendingBindings()
         }
 

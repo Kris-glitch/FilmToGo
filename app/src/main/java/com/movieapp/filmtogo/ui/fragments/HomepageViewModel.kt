@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.movieapp.filmtogo.data.ProvideStorage
 import com.movieapp.filmtogo.data.Repository
 import com.movieapp.filmtogo.modelRemote.Genre
 import com.movieapp.filmtogo.modelRemote.Movie
@@ -18,17 +19,13 @@ class HomepageViewModel (val app: Application, private val repository: Repositor
 
     private val _movieByNameResponse = MutableLiveData<List<Movie>?>()
 
-    private val _movieByNameResponseNextPage = MutableLiveData<List<Movie>?>()
-
     private val _movieByGenreResponse = MutableLiveData<List<Movie>?>()
-
-    private val _movieByGenreResponseNextPage = MutableLiveData<List<Movie>?>()
 
     private val _movieRecommended = MutableLiveData<List<Movie>?>()
 
-    private val _movieRecommendedNextPage = MutableLiveData<List<Movie>?>()
-
     private val _movieGenres = MutableLiveData<List<Genre>?>()
+
+    private val storage = ProvideStorage()
 
 
     fun searchMovieByName (query: String, page: Int)  :LiveData<List<Movie>?> {
@@ -36,7 +33,9 @@ class HomepageViewModel (val app: Application, private val repository: Repositor
             try {
                 val result = repository.searchMovieByName(query, page)
                 if (result != null) {
-                    _movieByNameResponse.postValue(result)
+                    val currentList = _movieByNameResponse.value ?: emptyList()
+                    val updatedList = currentList + result
+                    _movieByNameResponse.postValue(updatedList)
                 } else {
                     Log.d(ContentValues.TAG, "searchMovieByName: Response error - null")
                 }
@@ -46,27 +45,15 @@ class HomepageViewModel (val app: Application, private val repository: Repositor
         }
         return _movieByNameResponse
     }
-    fun searchMovieByNameNextPage (query: String, page: Int)  :LiveData<List<Movie>?> {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val result = repository.searchMovieByNameNextPage(query, page)
-                if (result != null) {
-                    _movieByNameResponseNextPage.postValue(result)
-                } else {
-                    Log.d(ContentValues.TAG, "searchMovieByNameNextPage: Response error - null")
-                }
-            } catch (e: Exception) {
-                Log.d(ContentValues.TAG, "searchMovieByNameNextPage: Coroutine failure", e)
-            }
-        }
-        return _movieByNameResponseNextPage
-    }
-    fun searchMovieByGenre (genreId: Int, page: Int) :LiveData<List<Movie>?> {
+
+    fun searchMovieByGenre(genreId: Int, page: Int) : LiveData<List<Movie>?>{
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = repository.searchMovieByGenre(genreId, page)
                 if (result != null) {
-                    _movieByGenreResponse.postValue(result)
+                    val currentList = _movieByGenreResponse.value ?: emptyList()
+                    val updatedList = currentList + result
+                    _movieByGenreResponse.postValue(updatedList)
                 } else {
                     Log.d(ContentValues.TAG, "searchMovieByGenre: Response error - null")
                 }
@@ -76,28 +63,15 @@ class HomepageViewModel (val app: Application, private val repository: Repositor
         }
         return _movieByGenreResponse
     }
-    fun searchMovieByGenreNextPage (genreId: Int, page: Int) :LiveData<List<Movie>?> {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val result = repository.searchMovieByGenreNextPage(genreId, page)
-                if (result != null) {
-                    _movieByGenreResponseNextPage.postValue(result)
-                } else {
-                    Log.d(ContentValues.TAG, "searchMovieByGenreNextPage: Response error - null")
-                }
-            } catch (e: Exception) {
-                Log.d(ContentValues.TAG, "searchMovieByGenreNextPage: Coroutine failure", e)
-            }
-        }
-        return _movieByGenreResponseNextPage
-    }
 
     fun searchRecommended(genreIds: String, sortBy: String, page: Int) :LiveData<List<Movie>?> {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = repository.searchRecommended(genreIds, sortBy, page)
                 if (result != null) {
-                    _movieRecommended.postValue(result)
+                    val currentList =_movieRecommended.value ?: emptyList()
+                    val updatedList = currentList + result
+                    _movieRecommended.postValue(updatedList)
                 } else {
                     Log.d(ContentValues.TAG, "searchRecommended: Response error - null")
                 }
@@ -108,21 +82,6 @@ class HomepageViewModel (val app: Application, private val repository: Repositor
         return _movieRecommended
     }
 
-    fun searchRecommendedNextPage(genreIds: String, sortBy: String, page: Int) : LiveData<List<Movie>?> {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val result = repository.searchRecommendedNextPage(genreIds, sortBy, page)
-                if (result != null) {
-                    _movieRecommendedNextPage.postValue(result)
-                } else {
-                    Log.d(ContentValues.TAG, "searchRecommendedNextPage: Response error - null")
-                }
-            } catch (e: Exception) {
-                Log.d(ContentValues.TAG, "searchRecommendedNextPage: Coroutine failure", e)
-            }
-        }
-        return _movieRecommendedNextPage
-    }
 
     fun searchGenres(): LiveData<List<Genre>?> {
         viewModelScope.launch(Dispatchers.IO) {
@@ -139,5 +98,17 @@ class HomepageViewModel (val app: Application, private val repository: Repositor
             }
         }
         return _movieGenres
+    }
+
+    fun getPreferredGenres() : List<Genre>? {
+        var genres = emptyList<Genre>()
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                genres = storage.getPreferredGenres()!!
+            } catch (e: Exception) {
+                Log.d(ContentValues.TAG, "searchGenres: Coroutine failure", e)
+            }
+        }
+        return genres
     }
 }

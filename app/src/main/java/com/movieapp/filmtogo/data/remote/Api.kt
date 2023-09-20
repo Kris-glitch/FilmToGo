@@ -41,7 +41,7 @@ interface Api {
     suspend fun searchPopularMoviesByGenres(
         @Query("api_key") key: String?,
         @Query("with_genres") genreIds: String, // Comma-separated genre IDs
-        @Query("sort_by") sortBy: String = "popularity.desc",
+        @Query("sort_by") sortBy: String,
         @Query("page") page: Int
     ): Response<MovieSearchResponse>
 

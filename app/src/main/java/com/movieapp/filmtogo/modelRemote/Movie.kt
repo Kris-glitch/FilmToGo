@@ -1,7 +1,10 @@
 package com.movieapp.filmtogo.modelRemote
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.Objects
 
+@Parcelize
 class Movie (val genre_ids: List<Int>,
              val id: Int,
              val original_language: String,
@@ -10,7 +13,7 @@ class Movie (val genre_ids: List<Int>,
              val poster_path: String?,
              val release_date: String,
              val title: String,
-             val vote_average: Double){
+             val vote_average: Double) : Parcelable{
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
