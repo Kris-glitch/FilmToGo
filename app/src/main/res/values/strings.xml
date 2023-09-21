@@ -51,5 +51,8 @@
     <string name="movie_is_playing">Movie is playing</string>
     <string name="recommended_movies">Recommended Movies</string>
     <string name="search_by_genre">Search By Genre</string>
+    <string name="back_button">back button</string>
+    <string name="movie_search_results">Movie Search Results</string>
+    <string name="update">Update</string>
 
 </resources>

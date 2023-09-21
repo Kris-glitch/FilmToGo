@@ -46,7 +46,6 @@ class SignupActivity : AppCompatActivity(), ProvideUser.UserSignupCallback {
     }
     override fun onSuccess() {
         CoroutineScope(Dispatchers.Main).launch {
-            Toast.makeText(this@SignupActivity, "Signup successful!", Toast.LENGTH_SHORT).show()
             goToSetup()
         }
     }

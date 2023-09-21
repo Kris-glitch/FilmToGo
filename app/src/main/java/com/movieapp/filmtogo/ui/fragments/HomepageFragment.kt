@@ -1,18 +1,19 @@
 package com.movieapp.filmtogo.ui.fragments
-
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.movieapp.filmtogo.data.ProvideStorage
+import com.movieapp.filmtogo.R
+import com.movieapp.filmtogo.data.ProvideUser
 import com.movieapp.filmtogo.databinding.FragmentHomepageBinding
 import com.movieapp.filmtogo.modelRemote.Genre
 import com.movieapp.filmtogo.modelRemote.Movie
@@ -20,6 +21,7 @@ import com.movieapp.filmtogo.ui.activities.MainActivity
 import com.movieapp.filmtogo.ui.adapters.GenresAdapter
 import com.movieapp.filmtogo.ui.adapters.MovieByGenreAdapter
 import com.movieapp.filmtogo.ui.adapters.RecommendedAdapter
+
 
 
 class HomepageFragment : Fragment() {
@@ -48,7 +50,7 @@ class HomepageFragment : Fragment() {
         val viewModel = (activity as MainActivity).homepageViewModel
 
 
-        var currentPageByName = 1
+
         var currentPageByGenre = 1
         var currentPageRecommended = 1
 
@@ -79,6 +81,7 @@ class HomepageFragment : Fragment() {
 
         val moviesByGenreLiveData: MutableLiveData<List<Movie>> = MutableLiveData()
 
+
         selectedGenre.observe(viewLifecycleOwner) { genre ->
             viewModel.searchMovieByGenre(genre.id, currentPageByGenre).observe(viewLifecycleOwner) { movies ->
                 val movieList = movies ?: emptyList()
@@ -100,6 +103,7 @@ class HomepageFragment : Fragment() {
         moviesByGenreLiveData.observe(viewLifecycleOwner) { movies ->
             movies?.let {
                 moviesByGenresAdapter.updateDataset(it)
+                Log.d("HomepageFragment", "moviesByGenreLiveData: ${movies.size} movies")
             }
         }
 
@@ -160,8 +164,61 @@ class HomepageFragment : Fragment() {
 
         })
 
+        //Menu Buttons
 
+        val bottomNavigationView = binding.bottomNavigationView
+
+        bottomNavigationView.setOnItemSelectedListener{ menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_home -> {
+
+                    true
+                }
+
+                R.id.menu_search -> {
+                    openSearchDialog(navController)
+                    true
+                }
+
+                R.id.menu_profile -> {
+                    navController.navigate(HomepageFragmentDirections.actionHomepageFragmentToProfileFragment())
+                    true
+                }
+
+                R.id.menu_logout -> {
+                    val provideUser = ProvideUser()
+                    provideUser.logoutUser()
+                    (activity as MainActivity).goToLogin()
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
+
+    private fun openSearchDialog(navController: NavController) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.search_overlay_dialog, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        val searchView = dialogView.findViewById<SearchView>(R.id.searchViewOverlay)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                navController.navigate(HomepageFragmentDirections.actionHomepageFragmentToSearchResultsFragment(query))
+                dialog.dismiss()
+                return true
+            }
+
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false;
+            }
+        })
+        dialog.show()
+    }
+
 
     private fun goToMovieDetails(navController: NavController, movie: Movie){
         navController.navigate(HomepageFragmentDirections.actionHomepageFragmentToMovieDetailFragment(movie))
@@ -180,6 +237,7 @@ class HomepageFragment : Fragment() {
         }
         return ids
     }
+
 
 
 

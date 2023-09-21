@@ -16,9 +16,6 @@ import kotlinx.coroutines.launch
 
 class HomepageViewModel (val app: Application, private val repository: Repository) : AndroidViewModel(app)  {
 
-
-    private val _movieByNameResponse = MutableLiveData<List<Movie>?>()
-
     private val _movieByGenreResponse = MutableLiveData<List<Movie>?>()
 
     private val _movieRecommended = MutableLiveData<List<Movie>?>()
@@ -27,32 +24,22 @@ class HomepageViewModel (val app: Application, private val repository: Repositor
 
     private val storage = ProvideStorage()
 
+    private var _currentGenreId = 28
 
-    fun searchMovieByName (query: String, page: Int)  :LiveData<List<Movie>?> {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val result = repository.searchMovieByName(query, page)
-                if (result != null) {
-                    val currentList = _movieByNameResponse.value ?: emptyList()
-                    val updatedList = currentList + result
-                    _movieByNameResponse.postValue(updatedList)
-                } else {
-                    Log.d(ContentValues.TAG, "searchMovieByName: Response error - null")
-                }
-            } catch (e: Exception) {
-                Log.d(ContentValues.TAG, "searchMovieByName: Coroutine failure", e)
-            }
-        }
-        return _movieByNameResponse
-    }
 
-    fun searchMovieByGenre(genreId: Int, page: Int) : LiveData<List<Movie>?>{
+    fun searchMovieByGenre(genreId: Int, page: Int): LiveData<List<Movie>?> {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = repository.searchMovieByGenre(genreId, page)
                 if (result != null) {
                     val currentList = _movieByGenreResponse.value ?: emptyList()
-                    val updatedList = currentList + result
+
+                    val updatedList = if (genreId == _currentGenreId) {
+                        currentList + result
+                    } else {
+                        result
+                    }
+                    _currentGenreId = genreId
                     _movieByGenreResponse.postValue(updatedList)
                 } else {
                     Log.d(ContentValues.TAG, "searchMovieByGenre: Response error - null")

@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.movieapp.filmtogo.R
 import com.movieapp.filmtogo.data.ProvideUser
@@ -47,14 +49,41 @@ class UserSetupSubscriptionFragment : Fragment() {
 
         recyclerView.adapter = adapter
 
+        val args: UserSetupSubscriptionFragmentArgs by navArgs()
+        val edit = args.edit
+
+        binding.backBtn.visibility = View.GONE
+
+        val saveButton = binding.saveBtn
+
+
+        if (edit == "edit"){
+            saveButton.text = getString(R.string.update)
+            binding.backBtn.visibility = View.VISIBLE
+        }
+
+        binding.backBtn.setOnClickListener {
+            Navigation.findNavController(view).navigateUp()
+        }
+
+
         binding.saveBtn.setOnClickListener {
             if (selectedSubscription != null) {
                 try {
                     lifecycleScope.launch(Dispatchers.IO) {
                         provideUser.updateUserSubscription(selectedSubscription!!)
-                        withContext(Dispatchers.Main) {
-                            it.findNavController().navigate(R.id.action_userSetupSubscriptionFragment_to_userSetupBillingFragment)
+
+                        if (edit == "edit"){
+                            withContext(Dispatchers.Main) {
+                                Navigation.findNavController(view).navigateUp()
+                            }
                         }
+                        else{
+                            withContext(Dispatchers.Main) {
+                                it.findNavController().navigate(R.id.action_userSetupSubscriptionFragment_to_userSetupBillingFragment)
+                            }
+                        }
+
                     }
                 } catch (e: Exception) {
                     Toast.makeText(requireView().context,"Something went wrong, check your connection",Toast.LENGTH_LONG).show()

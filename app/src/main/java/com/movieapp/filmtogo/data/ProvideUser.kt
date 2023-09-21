@@ -16,6 +16,9 @@ import com.movieapp.filmtogo.modelRemote.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.tasks.await
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
                   private val userLoginCallback: UserLoginCallback? = null) {
@@ -147,5 +150,36 @@ class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
         }
     }
 
+    suspend fun getUserSubscription(): String? {
+        return suspendCoroutine { continuation ->
+            if (currentUser != null) {
+                val userID = currentUser.uid
+                val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(userID)
 
+                databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            val user = dataSnapshot.getValue(User::class.java)
+                            val subscription = user?.subscription
+                            continuation.resume(subscription)
+                        } else {
+                            continuation.resume(null)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        continuation.resumeWithException(error.toException())
+                    }
+                })
+            } else {
+                continuation.resume(null)
+            }
+        }
+    }
+
+    fun logoutUser(){
+        if (currentUser != null){
+            auth.signOut()
+        }
+    }
 }

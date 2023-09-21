@@ -18,6 +18,10 @@
         <action
             android:id="@+id/action_userSetupSubscriptionFragment_to_userSetupBillingFragment"
             app:destination="@id/userSetupBillingFragment" />
+        <argument
+            android:name="edit"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/userSetupBillingFragment"
@@ -48,6 +52,9 @@
         <action
             android:id="@+id/action_homepageFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homepageFragment_to_searchResultsFragment"
+            app:destination="@id/searchResultsFragment" />
     </fragment>
     <fragment
         android:id="@+id/moviePlayFragment"
@@ -67,5 +74,26 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.movieapp.filmtogo.ui.fragments.ProfileFragment"
-        android:label="ProfileFragment" />
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_userSetupSubscriptionFragment"
+            app:destination="@id/userSetupSubscriptionFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_userSetupBillingFragment"
+            app:destination="@id/userSetupBillingFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_userSetuptPreferencesFragment"
+            app:destination="@id/userSetuptPreferencesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultsFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.SearchResultsFragment"
+        android:label="SearchResultsFragment" >
+        <argument
+            android:name="search_query"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchResultsFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
 </navigation>
