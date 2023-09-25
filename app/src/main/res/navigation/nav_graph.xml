@@ -19,7 +19,7 @@
             android:id="@+id/action_userSetupSubscriptionFragment_to_userSetupBillingFragment"
             app:destination="@id/userSetupBillingFragment" />
         <argument
-            android:name="edit"
+            android:name="edit_subscription"
             app:argType="string"
             app:nullable="true" />
     </fragment>
@@ -30,6 +30,10 @@
         <action
             android:id="@+id/action_userSetupBillingFragment_to_userSetuptPreferencesFragment"
             app:destination="@id/userSetuptPreferencesFragment" />
+        <argument
+            android:name="edit_billing"
+            app:argType="string"
+            app:nullable="true"/>
     </fragment>
     <fragment
         android:id="@+id/userSetuptPreferencesFragment"
@@ -82,8 +86,8 @@
             android:id="@+id/action_profileFragment_to_userSetupBillingFragment"
             app:destination="@id/userSetupBillingFragment" />
         <action
-            android:id="@+id/action_profileFragment_to_userSetuptPreferencesFragment"
-            app:destination="@id/userSetuptPreferencesFragment" />
+            android:id="@+id/action_profileFragment_to_downloadsFragment"
+            app:destination="@id/downloadsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchResultsFragment"
@@ -95,5 +99,13 @@
         <action
             android:id="@+id/action_searchResultsFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/downloadsFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.DownloadsFragment"
+        android:label="DownloadsFragment" >
+        <action
+            android:id="@+id/action_downloadsFragment_to_moviePlayFragment"
+            app:destination="@id/moviePlayFragment" />
     </fragment>
 </navigation>

@@ -55,9 +55,18 @@
 
         </ScrollView>
 
+
+        <FrameLayout
+            android:id="@+id/containerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="55dp"
+            android:layout_alignParentBottom="true">
+        </FrameLayout>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
-            android:layout_width="411dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/blue_dark"
             app:layout_constraintBottom_toBottomOf="parent"

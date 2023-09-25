@@ -3,7 +3,10 @@ package com.movieapp.filmtogo.data
 import android.content.ContentValues
 import android.text.TextUtils
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -16,9 +19,7 @@ import com.movieapp.filmtogo.modelRemote.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.tasks.await
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
+
 
 class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
                   private val userLoginCallback: UserLoginCallback? = null) {
@@ -26,6 +27,9 @@ class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
     companion object {
         private const val TAG = "ProvideUser"
     }
+
+    private var _subscription : MutableLiveData<String> = MutableLiveData()
+    var subscription : LiveData<String> = _subscription
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var databaseRef: DatabaseReference
@@ -52,7 +56,13 @@ class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
                 val user = authResult.user
                 val userID: String = user!!.uid
 
-                val newUser = User(userID, username, email, "default", "")
+                val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(username)
+                    .build()
+
+                user.updateProfile(profileUpdates).await()
+
+                val newUser = User(userID, username, email, "default")
 
                 databaseRef = Firebase.database.getReference("Users").child(userID)
                 databaseRef.setValue(newUser).await()
@@ -68,6 +78,7 @@ class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
             }
         }
     }
+
 
     private fun passwordHasDigit(password: String): Boolean {
         for (i in password) {
@@ -134,9 +145,9 @@ class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
                     if (dataSnapshot.exists()) {
                         val user = dataSnapshot.getValue(User::class.java)
                         user?.subscription = selectedSubscription.sub_title
-
                         databaseRef.setValue(user).addOnSuccessListener {
                             Log.d(ContentValues.TAG, "Subscription change:success")
+                            _subscription.postValue(user?.subscription)
                         }.addOnFailureListener {
                             Log.d(ContentValues.TAG, "Subscription change:FAILED")
                         }
@@ -147,33 +158,6 @@ class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
                     Log.d(ContentValues.TAG, "Subscription change:Canceled")
                 }
             })
-        }
-    }
-
-    suspend fun getUserSubscription(): String? {
-        return suspendCoroutine { continuation ->
-            if (currentUser != null) {
-                val userID = currentUser.uid
-                val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(userID)
-
-                databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            val user = dataSnapshot.getValue(User::class.java)
-                            val subscription = user?.subscription
-                            continuation.resume(subscription)
-                        } else {
-                            continuation.resume(null)
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        continuation.resumeWithException(error.toException())
-                    }
-                })
-            } else {
-                continuation.resume(null)
-            }
         }
     }
 

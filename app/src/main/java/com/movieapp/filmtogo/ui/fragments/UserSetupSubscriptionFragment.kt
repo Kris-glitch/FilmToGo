@@ -49,8 +49,8 @@ class UserSetupSubscriptionFragment : Fragment() {
 
         recyclerView.adapter = adapter
 
-        val args: UserSetupSubscriptionFragmentArgs by navArgs()
-        val edit = args.edit
+        val args : UserSetupSubscriptionFragmentArgs by navArgs()
+        val edit = args.editSubscription
 
         binding.backBtn.visibility = View.GONE
 
@@ -80,7 +80,7 @@ class UserSetupSubscriptionFragment : Fragment() {
                         }
                         else{
                             withContext(Dispatchers.Main) {
-                                it.findNavController().navigate(R.id.action_userSetupSubscriptionFragment_to_userSetupBillingFragment)
+                                it.findNavController().navigate(UserSetupSubscriptionFragmentDirections.actionUserSetupSubscriptionFragmentToUserSetupBillingFragment("no"))
                             }
                         }
 

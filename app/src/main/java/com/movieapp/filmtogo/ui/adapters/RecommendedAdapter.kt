@@ -1,8 +1,7 @@
 package com.movieapp.filmtogo.ui.adapters
 
-import android.content.Context
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -15,13 +14,12 @@ import com.movieapp.filmtogo.databinding.RecomendedItemBinding
 import com.movieapp.filmtogo.modelRemote.Movie
 import com.movieapp.filmtogo.ui.fragments.HomepageFragmentDirections
 
-class RecommendedAdapter (private val context: Context,
-                          private val navController: NavController,
+class RecommendedAdapter (private val navController: NavController,
                           private val onItemClick: (Movie) -> Unit) : RecyclerView.Adapter<RecommendedAdapter.RecommendedViewHolder>() {
 
     private var selectedMovie: Movie? = null
     private var movieList : List<Movie> = emptyList()
-    private val differ : AsyncListDiffer<Movie> = AsyncListDiffer(this, MovieByGenreAdapter.MovieDiffCallback())
+    private val differ : AsyncListDiffer<Movie> = AsyncListDiffer(this, MovieDiffCallback())
     fun updateDataset(newMovieList : List<Movie>) {
         differ.submitList(newMovieList)
         movieList = newMovieList
@@ -42,12 +40,14 @@ class RecommendedAdapter (private val context: Context,
         }
 
 
-        fun bind (movie : Movie, isSelected : Boolean){
+        fun bind (movie : Movie){
             binding.recommendedMovieTitle.text = movie.title
             binding.recommendedMovieRating.text = movie.vote_average.toString()
             binding.recommendedMovieYear.text = movie.release_date
-            Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500/"
+            if (!movie.poster_path.isNullOrEmpty()){
+                Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500/"
                     + movie.poster_path).into(binding.recommendedMovieImage)
+            }
             binding.executePendingBindings()
         }
 
@@ -62,8 +62,7 @@ class RecommendedAdapter (private val context: Context,
 
     override fun onBindViewHolder(holder: RecommendedAdapter.RecommendedViewHolder, position: Int){
         val movie = movieList[position]
-        val isSelected = movie == selectedMovie
-        holder.bind(movie, isSelected)
+        holder.bind(movie)
     }
 
     override fun getItemCount(): Int {

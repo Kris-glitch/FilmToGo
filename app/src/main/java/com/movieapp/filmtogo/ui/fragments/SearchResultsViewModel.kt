@@ -16,25 +16,30 @@ class SearchResultsViewModel(val app: Application, private val repository: Repos
 
     private val _movieByNameResponse = MutableLiveData<List<Movie>?>()
     private var movieSearch = ""
+    private val _messageLiveData = MutableLiveData<String?>()
+    val messageLiveData: LiveData<String?> get() = _messageLiveData
 
-    fun searchMovieByName (query: String, page: Int)  : LiveData<List<Movie>?> {
+    fun searchMovieByName(query: String, page: Int): LiveData<List<Movie>?> {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val result = repository.searchMovieByName(query, page)
-                if (result != null) {
-                    val currentList = _movieByNameResponse.value ?: emptyList()
-                    val updatedList = if (query == movieSearch) {
-                        currentList + result
-                    } else {
-                        result
-                    }
-                    movieSearch = query
-                    _movieByNameResponse.postValue(updatedList)
+                val currentList = _movieByNameResponse.value ?: emptyList()
+                val updatedList = if (query == movieSearch) {
+                    currentList + (result ?: emptyList())
                 } else {
-                    Log.d(ContentValues.TAG, "searchMovieByName: Response error - null")
+                    result ?: emptyList()
                 }
-            } catch (e: Exception) {
-                Log.d(ContentValues.TAG, "searchMovieByName: Coroutine failure", e)
+                movieSearch = query
+                _movieByNameResponse.postValue(updatedList)
+
+                if (updatedList.isEmpty()) {
+                    _messageLiveData.postValue("No results of this search")
+                } else {
+                    _messageLiveData.postValue(null)
+                }
+            } catch (e: IllegalStateException) {
+                Log.d(ContentValues.TAG, "searchMovieByName: Body is null - Network failure", e)
+                _messageLiveData.postValue("No network connection")
             }
         }
         return _movieByNameResponse

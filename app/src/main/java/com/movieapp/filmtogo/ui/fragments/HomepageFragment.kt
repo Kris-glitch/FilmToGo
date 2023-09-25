@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -49,7 +50,17 @@ class HomepageFragment : Fragment() {
 
         val viewModel = (activity as MainActivity).homepageViewModel
 
+        //No Connection
 
+        val noNetworkLayout = layoutInflater.inflate(R.layout.no_network, binding.containerLayout, false)
+
+        viewModel.messageLiveData.observe(viewLifecycleOwner) { message ->
+            if (message == "No network connection") {
+                binding.containerLayout.addView(noNetworkLayout)
+            } else {
+                binding.containerLayout.removeView(noNetworkLayout)
+            }
+        }
 
         var currentPageByGenre = 1
         var currentPageRecommended = 1
@@ -137,7 +148,7 @@ class HomepageFragment : Fragment() {
         val recommendedRecyclerView = binding.recommendedRecyclerView
         recommendedRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
 
-        val recommendedAdapter = RecommendedAdapter(requireContext(), navController){clickedMovie ->
+        val recommendedAdapter = RecommendedAdapter(navController){clickedMovie ->
             selectedMovie = clickedMovie
             goToMovieDetails(navController, selectedMovie!!)
 
@@ -213,9 +224,10 @@ class HomepageFragment : Fragment() {
 
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                return false;
+                return false
             }
         })
+        searchView.requestFocus()
         dialog.show()
     }
 
@@ -226,7 +238,7 @@ class HomepageFragment : Fragment() {
     }
 
     private fun getIds(preferences: List<Genre>?): String {
-        var ids: String = ""
+        var ids = ""
         if (preferences != null) {
             for ((index, genre) in preferences.withIndex()) {
                 ids += genre.id.toString()

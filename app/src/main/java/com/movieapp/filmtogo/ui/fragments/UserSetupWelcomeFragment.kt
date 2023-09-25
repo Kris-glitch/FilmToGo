@@ -21,14 +21,14 @@ import com.movieapp.filmtogo.databinding.FragmentUserSetupWelcomeBinding
 class UserSetupWelcomeFragment : Fragment(R.layout.fragment_user_setup_welcome) {
 
     private lateinit var _binding : FragmentUserSetupWelcomeBinding
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentUserSetupWelcomeBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -69,9 +69,10 @@ class UserSetupWelcomeFragment : Fragment(R.layout.fragment_user_setup_welcome) 
         binding.continueBtn.animation = animateBtn
         binding.splashImage.animation = animateImg
 
-        binding.continueBtn.setOnClickListener(View.OnClickListener {
-            it.findNavController().navigate(R.id.action_userSetupWelcomeFragment_to_userSetupSubscriptionFragment)
-        })
+        binding.continueBtn.setOnClickListener {
+            view.findNavController().navigate(UserSetupWelcomeFragmentDirections
+                .actionUserSetupWelcomeFragmentToUserSetupSubscriptionFragment("no"))
+        }
 
     }
 

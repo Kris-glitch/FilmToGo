@@ -54,5 +54,12 @@
     <string name="back_button">back button</string>
     <string name="movie_search_results">Movie Search Results</string>
     <string name="update">Update</string>
+    <string name="share">share</string>
+    <string name="no_results_from_your_search">No results from your search</string>
+    <string name="unable_to_display_content_please_check_your_network_connection">Unable to display content. Please check your network connection.</string>
+    <string name="add_your_billing_info">Add your billing info:</string>
+    <string name="card_image">Card image</string>
+    <string name="en">EN</string>
+    <string name="_2023">2023</string>
 
 </resources>

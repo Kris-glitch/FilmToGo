@@ -13,95 +13,90 @@ class ApiClient {
 
     private val api: Api = MyRetrofit.getMovieApi()
 
-    suspend fun searchMovieByName(query: String, page: Int): List<Movie>? {
+    suspend fun searchMovieByName(query: String, page: Int): List<Movie> {
         return withContext(Dispatchers.IO) {
             val response = api.searchMovieByName(apiKey, query, page)
 
-            if (response != null) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body != null) {
-                        return@withContext body.results
-                    } else {
-                        Log.d(ContentValues.TAG, "searchMovieByName: Response error - body is null")
-                        return@withContext null
-                    }
-                } else {
-                    val error = response.errorBody()?.string() ?: "Unknown error"
-                    Log.d(ContentValues.TAG, "searchMovieByName: $error")
-                    return@withContext null
-                }
-            } else {
-                return@withContext null
+            if (!response!!.isSuccessful) {
+                val error = response.errorBody()?.string() ?: "Unknown error"
+                Log.d(ContentValues.TAG, "searchMovieByName (: $error")
+                throw IllegalStateException("searchMovieByName (: $error")
             }
+
+            val body = response.body()
+            if (body == null) {
+                Log.d(ContentValues.TAG, "searchMovieByName: Response error - body is null")
+                throw IllegalStateException("searchMovieByName: Response error - body is null")
+            }
+
+            val results = body.results
+
+            if (results.isEmpty()) {
+                return@withContext emptyList()
+            }
+
+            results
         }
     }
 
-    suspend fun searchMovieByGenre(genreId: Int, page: Int): List<Movie>? {
+    suspend fun searchMovieByGenre(genreId: Int, page: Int): List<Movie> {
         return withContext(Dispatchers.IO) {
             val response = api.searchMovieByGenre(apiKey, genreId, page)
 
-            if (response != null) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body != null) {
-                        return@withContext body.results
-                    } else {
-                        Log.d(ContentValues.TAG, "searchMovieByGenre: Response error - body is null")
-                        return@withContext null
-                    }
-                } else {
-                    val error = response.errorBody()?.string() ?: "Unknown error"
-                    Log.d(ContentValues.TAG, "searchMovieByGenre: $error")
-                    return@withContext null
-                }
-            } else {
-                return@withContext null
+            if (!response!!.isSuccessful) {
+                val error = response.errorBody()?.string() ?: "Unknown error"
+                Log.d(ContentValues.TAG, "searchMovieByGenre (: $error")
+                throw IllegalStateException("searchMovieByGenre (: $error")
             }
+
+            val body = response.body()
+            if (body == null) {
+                Log.d(ContentValues.TAG, "searchMovieByGenre: Response error - body is null")
+                throw IllegalStateException("searchMovieByGenre: Response error - body is null")
+            }
+
+            body.results
         }
     }
 
-    suspend fun searchRecommended(genreIds: String, sortBy: String, page: Int): List<Movie>? {
+    suspend fun searchRecommended(genreIds: String, sortBy: String, page: Int): List<Movie> {
         return withContext(Dispatchers.IO) {
             val response = api.searchPopularMoviesByGenres(apiKey, genreIds, sortBy, page)
 
-            if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    return@withContext body.results
-                } else {
-                    Log.d(ContentValues.TAG, "searchRecommended: Response error - body is null")
-                    return@withContext null
-                }
-            } else {
+            if (!response.isSuccessful) {
                 val error = response.errorBody()?.string() ?: "Unknown error"
-                Log.d(ContentValues.TAG, "searchRecommended: $error")
-                return@withContext null
+                Log.d(ContentValues.TAG, "searchRecommended (: $error")
+                throw IllegalStateException("searchRecommended (: $error")
             }
+
+            val body = response.body()
+            if (body == null) {
+                Log.d(ContentValues.TAG, "searchRecommended: Response error - body is null")
+                throw IllegalStateException("searchRecommended: Response error - body is null")
+            }
+
+            body.results
+
         }
     }
 
-    suspend fun searchGenres(): List<Genre>? {
+    suspend fun searchGenres(): List<Genre> {
         return withContext(Dispatchers.IO) {
             val response = api.searchGenres(apiKey)
 
-            if (response != null) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body != null) {
-                        return@withContext body.genres
-                    } else {
-                        Log.d(ContentValues.TAG, "searchGenres: Response error - body is null")
-                        return@withContext null
-                    }
-                } else {
-                    val error = response.errorBody()?.string() ?: "Unknown error"
-                    Log.d(ContentValues.TAG, "searchGenres: $error")
-                    return@withContext null
-                }
-            } else {
-                return@withContext null
+            if (!response!!.isSuccessful) {
+                val error = response.errorBody()?.string() ?: "Unknown error"
+                Log.d(ContentValues.TAG, "searchGenres: $error")
+                throw IllegalStateException("searchGenres: $error")
             }
+
+            val body = response.body()
+            if (body == null) {
+                Log.d(ContentValues.TAG, "searchGenres: Response error - body is null")
+                throw IllegalStateException("searchGenres: Response error - body is null")
+            }
+
+            body.genres
         }
     }
 

@@ -1,10 +1,9 @@
 package com.movieapp.filmtogo.modelRemote
 
 class User (val user_id : String = "",
-            val username : String = "",
-            val email : String = "",
-            var subscription : String = "",
-            val imageURL : String = "") {
+            var username : String = "",
+            var email : String = "",
+            var subscription : String = "") {
 
     companion object {
         var instance: User? = null

@@ -9,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.movieapp.filmtogo.R
 import com.movieapp.filmtogo.data.ProvideStorage
 import com.movieapp.filmtogo.databinding.FragmentUserSetupBillingBinding
@@ -34,8 +36,22 @@ class UserSetupBillingFragment : Fragment() {
 
         val provideStorage = ProvideStorage()
 
-        binding.apply {
+        val args : UserSetupBillingFragmentArgs by navArgs()
+        val edit = args.editBilling
 
+        binding.backBtn.visibility = View.GONE
+        val saveButton = binding.saveBtn
+
+        if (edit == "edit"){
+            saveButton.text = getString(R.string.update)
+            binding.backBtn.visibility = View.VISIBLE
+        }
+
+
+        binding.apply {
+            backBtn.setOnClickListener {
+                Navigation.findNavController(view).navigateUp()
+            }
             saveBtn.setOnClickListener {
                 val cardNumberValue: String = cardNumber.text.toString()
                 val cardHolderValue: String = cardholder.text.toString().trim()
@@ -54,9 +70,15 @@ class UserSetupBillingFragment : Fragment() {
                                 cardCVVValue
                             )
 
-                            withContext(Dispatchers.Main) {
-                                it.findNavController()
-                                    .navigate(R.id.action_userSetupBillingFragment_to_userSetuptPreferencesFragment)
+                            if (edit == "edit"){
+                                withContext(Dispatchers.Main) {
+                                    Navigation.findNavController(view).navigateUp()
+                                }
+                            } else {
+                                withContext(Dispatchers.Main) {
+                                    it.findNavController()
+                                        .navigate(R.id.action_userSetupBillingFragment_to_userSetuptPreferencesFragment)
+                                }
                             }
                         }
                     } catch (e: Exception) {
@@ -75,16 +97,6 @@ class UserSetupBillingFragment : Fragment() {
         }
     }
 
-
-    private fun createHash(userID: String, cardNumber: String, cardHolder: String, cardDate: String, cardCVV: String): HashMap<String, String> {
-        return hashMapOf(
-            "id" to userID,
-            "cardNumber" to cardNumber,
-            "cardHolder" to cardHolder,
-            "cardDate" to cardDate,
-            "cardCVV" to cardCVV
-        )
-    }
 
     private fun isValidCardNumber(cardNumber: String): Boolean {
         val cleanedCardNumber = cardNumber.replace("\\s".toRegex(), "")

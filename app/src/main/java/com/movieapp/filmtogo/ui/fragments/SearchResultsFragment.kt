@@ -1,16 +1,16 @@
 package com.movieapp.filmtogo.ui.fragments
 
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.movieapp.filmtogo.R
 import com.movieapp.filmtogo.databinding.FragmentSearchResultsBinding
@@ -27,7 +27,7 @@ class SearchResultsFragment : Fragment() {
     private val binding get() = _binding
     private var selectedMovie: Movie? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View {
 
         _binding = FragmentSearchResultsBinding.inflate(inflater, container, false)
         return binding.root
@@ -45,6 +45,20 @@ class SearchResultsFragment : Fragment() {
         var currentPageByName = 1
 
         val searchedMovies = viewModel.searchMovieByName(searchQuery, currentPageByName)
+
+        val noNetworkLayout = layoutInflater.inflate(R.layout.no_network, binding.containerLayout, false)
+
+        viewModel.messageLiveData.observe(viewLifecycleOwner) { message ->
+            if (message == "No results of this search") {
+                binding.noResults.visibility = View.VISIBLE
+            } else if (message == "No network connection") {
+                binding.containerLayout.addView(noNetworkLayout)
+            } else {
+                binding.noResults.visibility = View.GONE
+                binding.containerLayout.removeView(noNetworkLayout)
+            }
+        }
+
         val searchRecyclerView = binding.searchRecyclerView
         searchRecyclerView.layoutManager = GridLayoutManager(requireActivity(), 2)
 

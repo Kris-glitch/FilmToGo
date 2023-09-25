@@ -124,6 +124,18 @@ dependencies {
     // Flexbox for RecyclerView
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
+    // Room
+    val roomVersion = "2.5.2"
+    implementation ("androidx.room:room-runtime:$roomVersion")
+    implementation ("androidx.room:room-ktx:$roomVersion")
+    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+
+
+
+    // Swipe Decorator
+    implementation ("it.xabaras.android:recyclerview-swipedecorator:1.4")
+
+
 
 
 

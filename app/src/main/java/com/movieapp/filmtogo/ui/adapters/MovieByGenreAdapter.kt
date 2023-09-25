@@ -34,10 +34,14 @@ class MovieByGenreAdapter(private val onItemClick: (Movie) -> Unit) : RecyclerVi
             }
         }
 
-        fun bind (movie : Movie, isSelected : Boolean){
+        fun bind (movie : Movie){
             binding.movieTitle.text = movie.title
-            Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500/"
-                    + movie.poster_path).into(binding.movieImage)
+            if (!movie.poster_path.isNullOrEmpty()) {
+                Glide.with(binding.root.context).load(
+                    "https://image.tmdb.org/t/p/w500/"
+                            + movie.poster_path
+                ).into(binding.movieImage)
+            }
             binding.executePendingBindings()
         }
 
@@ -55,8 +59,7 @@ class MovieByGenreAdapter(private val onItemClick: (Movie) -> Unit) : RecyclerVi
 
     override fun onBindViewHolder(holder: MoviesByGenreViewHolder, position: Int) {
         val movie = movieList[position]
-        val isSelected = movie == selectedMovie
-        holder.bind(movie, isSelected)
+        holder.bind(movie)
     }
 
     class MovieDiffCallback : DiffUtil.ItemCallback<Movie>() {

@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="180dp"
-        android:layout_height="345dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:backgroundTint="@color/darkest"
         app:cardCornerRadius="12sp"
         app:cardElevation="16sp"
@@ -18,34 +18,34 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/recommended_movie_image"
-                android:layout_width="match_parent"
-                android:layout_height="230sp"
-                android:contentDescription="@string/movie_poster"
+                android:id="@+id/down_movie_image"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
                 android:src="@drawable/baseline_no_image"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/movie_poster"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/recommended_movie_title"
+                android:id="@+id/down_movie_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12sp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="12sp"
+                android:layout_marginStart="16sp"
+                android:layout_marginTop="16sp"
+                android:layout_marginEnd="16dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/kanitmedium"
                 android:maxLines="2"
                 android:text="@string/movie_title"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/recommended_movie_image"
-                app:layout_constraintTop_toBottomOf="@+id/recommended_movie_image" />
+                app:layout_constraintEnd_toStartOf="@+id/play_now_btn"
+                app:layout_constraintStart_toEndOf="@+id/down_movie_image"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/recommended_movie_year"
+                android:id="@+id/down_movie_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -54,12 +54,12 @@
                 android:fontFamily="@font/kanitregular"
                 android:text="@string/movie_year"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/recommended_movie_rating"
-                app:layout_constraintTop_toBottomOf="@+id/recommended_movie_title" />
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/down_movie_rating"
+                app:layout_constraintTop_toBottomOf="@+id/down_movie_title" />
 
             <TextView
-                android:id="@+id/recommended_movie_rating"
+                android:id="@+id/down_movie_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/kanitregular"
@@ -67,22 +67,21 @@
                 android:text="@string/movie_rating"
                 android:drawableStart="@drawable/baseline_star_rate_24"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/recommended_movie_title"
-                app:layout_constraintTop_toBottomOf="@+id/recommended_movie_title" />
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/down_movie_title"
+                app:layout_constraintTop_toBottomOf="@+id/down_movie_title" />
 
             <ImageButton
                 android:id="@+id/play_now_btn"
                 android:layout_width="60sp"
                 android:layout_height="60sp"
-                android:layout_marginBottom="26sp"
+                android:layout_margin="26sp"
                 android:background="?android:selectableItemBackground"
                 android:contentDescription="@string/Play"
                 android:src="@drawable/baseline_play_circle_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/recommended_movie_image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/recommended_movie_image" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/down_movie_image" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

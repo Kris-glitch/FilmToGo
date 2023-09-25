@@ -19,33 +19,29 @@
             android:layout_margin="16sp"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/back_button"/>
-        <ImageView
-            android:id="@+id/profile_pic"
-            android:layout_width="100sp"
-            android:layout_height="100sp"
-            android:layout_gravity="center"
-            android:layout_marginTop="26sp"
-            android:contentDescription="@string/profile"
-            android:background="@drawable/edit_shape"/>
+
         <TextView
             android:id="@+id/username_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="26sp"
+            android:gravity="center_horizontal"
             android:textColor="@color/white"
             android:fontFamily="@font/kanitsemibold"
-            android:text="Tom Smith"
             android:layout_gravity="center"
             android:layout_marginTop="16sp"/>
-        <ImageButton
-            android:backgroundTint="@color/darkest"
-            android:id="@+id/edit_profile_btn"
+
+        <TextView
+            android:id="@+id/username_email"
+            android:text="@string/unable_to_display_content_please_check_your_network_connection"
+            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/edit_profile"
-            android:src="@drawable/baseline_edit_24"
+            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/kanitmedium"
             android:layout_gravity="center"
-            android:layout_marginTop="5sp"/>
+            />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/get_premium_card"

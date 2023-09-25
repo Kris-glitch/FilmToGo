@@ -9,6 +9,8 @@ import androidx.navigation.findNavController
 import com.movieapp.filmtogo.R
 import com.movieapp.filmtogo.data.ProvideUser
 import com.movieapp.filmtogo.data.Repository
+import com.movieapp.filmtogo.ui.fragments.DownloadsViewModel
+import com.movieapp.filmtogo.ui.fragments.DownloadsViewModelFactory
 import com.movieapp.filmtogo.ui.fragments.HomepageViewModel
 import com.movieapp.filmtogo.ui.fragments.HomepageViewModelFactory
 import com.movieapp.filmtogo.ui.fragments.PreferencesViewModelFactory
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var preferencesViewModel : UserSetuptPreferencesViewModel
     lateinit var homepageViewModel : HomepageViewModel
     lateinit var searchResultsViewModel : SearchResultsViewModel
+    lateinit var downloadsViewModel : DownloadsViewModel
 
     public override fun onStart() {
         super.onStart()
@@ -62,6 +65,9 @@ class MainActivity : AppCompatActivity() {
 
         val searchResultsViewModelFactory = SearchResultsViewModelFactory(application, Repository())
         searchResultsViewModel = ViewModelProvider(this, searchResultsViewModelFactory).get(SearchResultsViewModel::class.java)
+
+        val downloadsViewModelFactory = DownloadsViewModelFactory (application, Repository())
+        downloadsViewModel = ViewModelProvider(this, downloadsViewModelFactory).get(DownloadsViewModel::class.java)
     }
 
 

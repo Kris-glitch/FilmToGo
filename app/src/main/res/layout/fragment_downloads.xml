@@ -26,7 +26,7 @@
             android:layout_marginStart="16sp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/kanitbold"
-            android:text="@string/movie_search_results"
+            android:text="@string/downloads"
             android:textColor="@color/white"
             android:textSize="26sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,23 +34,7 @@
             app:layout_constraintStart_toEndOf="@+id/back_btn"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/no_results"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/kanitbold"
-            android:text="@string/no_results_from_your_search"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:visibility="gone"
-            android:layout_marginTop="50sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_title" />
-
-
         <ScrollView
-            android:id="@+id/scrollView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -58,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@+id/fragment_title">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/search_recycler_view"
+                android:id="@+id/downloads_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16sp"
@@ -67,16 +51,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent" />
         </ScrollView>
-
-        <FrameLayout
-            android:id="@+id/containerLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
-
-        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

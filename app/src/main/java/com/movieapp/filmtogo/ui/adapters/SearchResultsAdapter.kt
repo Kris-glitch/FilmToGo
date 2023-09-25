@@ -15,7 +15,7 @@ class SearchResultsAdapter(private val onItemClick: (Movie) -> Unit) : RecyclerV
 
     private var selectedMovie: Movie? = null
     private var movieList : List<Movie> = emptyList()
-    private val differ : AsyncListDiffer<Movie> = AsyncListDiffer(this, MovieByGenreAdapter.MovieDiffCallback())
+    private val differ : AsyncListDiffer<Movie> = AsyncListDiffer(this, SearchResultsAdapter.MovieDiffCallback())
 
 
     fun updateDataset(newMovieList : List<Movie>) {
@@ -36,8 +36,10 @@ class SearchResultsAdapter(private val onItemClick: (Movie) -> Unit) : RecyclerV
 
         fun bind (movie : Movie, isSelected : Boolean){
             binding.movieTitle.text = movie.title
-            Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500/"
-                    + movie.poster_path).into(binding.movieImage)
+            if (!movie.poster_path.isNullOrEmpty()){
+                Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500/"
+                        + movie.poster_path).into(binding.movieImage)
+            }
             binding.executePendingBindings()
         }
 
