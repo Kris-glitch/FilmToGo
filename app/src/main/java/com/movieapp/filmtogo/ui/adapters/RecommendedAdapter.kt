@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.movieapp.filmtogo.R
@@ -53,7 +52,6 @@ class RecommendedAdapter (private val navController: NavController,
 
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup,viewType: Int): RecommendedAdapter.RecommendedViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding : RecomendedItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.recomended_item, parent, false)
@@ -69,20 +67,5 @@ class RecommendedAdapter (private val navController: NavController,
         return movieList.size
     }
 
-    class MovieDiffCallback : DiffUtil.ItemCallback<Movie>() {
 
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem.id == newItem.id
-                    && oldItem.original_language == newItem.original_language
-                    && oldItem.overview == newItem.overview
-                    && oldItem.popularity == newItem.popularity
-                    && oldItem.poster_path == newItem.poster_path
-                    && oldItem.release_date == newItem.release_date
-                    && oldItem.title == newItem.title
-                    && oldItem.vote_average == newItem.vote_average
-        }
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem == newItem
-        }
-    }
 }

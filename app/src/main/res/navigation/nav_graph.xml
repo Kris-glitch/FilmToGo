@@ -88,6 +88,10 @@
         <action
             android:id="@+id/action_profileFragment_to_downloadsFragment"
             app:destination="@id/downloadsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/searchResultsFragment"
@@ -106,6 +110,14 @@
         android:label="DownloadsFragment" >
         <action
             android:id="@+id/action_downloadsFragment_to_moviePlayFragment"
+            app:destination="@id/moviePlayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouritesFragment"
+        android:name="com.movieapp.filmtogo.ui.fragments.FavoritesFragment"
+        android:label="FavouritesFragment" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_moviePlayFragment"
             app:destination="@id/moviePlayFragment" />
     </fragment>
 </navigation>

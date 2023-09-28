@@ -5,15 +5,15 @@ import kotlinx.android.parcel.Parcelize
 import java.util.Objects
 
 @Parcelize
-class Movie (val genre_ids: List<Int>,
-             val id: Int,
-             val original_language: String,
-             val overview: String,
-             val popularity: Double,
-             val poster_path: String?,
-             val release_date: String,
-             val title: String,
-             val vote_average: Double) : Parcelable{
+class Movie @JvmOverloads constructor(val genre_ids: List<Int> = emptyList(),
+                                      val id: Int = 0,
+                                      val original_language: String = "",
+                                      val overview: String = "",
+                                      val popularity: Double = 0.0,
+                                      val poster_path: String? = null,
+                                      val release_date: String = "",
+                                      val title: String = "",
+                                      val vote_average: Double = 0.0) : Parcelable {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

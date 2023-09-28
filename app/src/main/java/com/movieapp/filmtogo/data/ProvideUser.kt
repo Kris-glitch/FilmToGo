@@ -3,15 +3,10 @@ package com.movieapp.filmtogo.data
 import android.content.ContentValues
 import android.text.TextUtils
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.movieapp.filmtogo.modelRemote.Subscription
@@ -28,12 +23,18 @@ class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
         private const val TAG = "ProvideUser"
     }
 
-    private var _subscription : MutableLiveData<String> = MutableLiveData()
-    var subscription : LiveData<String> = _subscription
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var databaseRef: DatabaseReference
     val currentUser = auth.currentUser
+
+    fun getCurrentUserId() : String {
+        var id = ""
+        if (currentUser != null){
+            id = currentUser.uid
+        }
+        return id
+    }
 
     suspend fun login(email: String, password: String) {
         try {
@@ -134,31 +135,29 @@ class ProvideUser(private val userSignupCallback: UserSignupCallback? = null,
     class InvalidRegistrationException(message: String?) : Exception(message)
 
 
-    suspend fun updateUserSubscription(selectedSubscription: Subscription){
+    suspend fun updateUserSubscription(selectedSubscription: Subscription) : String {
+
+        var mySubscription = ""
 
         if (currentUser != null) {
             val userID = currentUser.uid
             val databaseRef = FirebaseDatabase.getInstance().getReference("Users").child(userID)
 
-            databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        val user = dataSnapshot.getValue(User::class.java)
-                        user?.subscription = selectedSubscription.sub_title
-                        databaseRef.setValue(user).addOnSuccessListener {
-                            Log.d(ContentValues.TAG, "Subscription change:success")
-                            _subscription.postValue(user?.subscription)
-                        }.addOnFailureListener {
-                            Log.d(ContentValues.TAG, "Subscription change:FAILED")
-                        }
-                    }
-                }
+            try {
+                val dataSnapshot = databaseRef.get().await()
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.d(ContentValues.TAG, "Subscription change:Canceled")
+                if (dataSnapshot.exists()) {
+                    val user = dataSnapshot.getValue(User::class.java)
+                    user?.subscription = selectedSubscription.sub_title
+                    databaseRef.setValue(user).await()
+                    mySubscription = selectedSubscription.sub_title
+                    Log.d(ContentValues.TAG, "Subscription change: success")
                 }
-            })
+            } catch (e: Exception) {
+                Log.d(ContentValues.TAG, "Error updating subscription: $e")
+            }
         }
+        return mySubscription
     }
 
     fun logoutUser(){

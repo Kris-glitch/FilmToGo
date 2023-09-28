@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.movieapp.filmtogo.R
@@ -15,7 +14,7 @@ class SearchResultsAdapter(private val onItemClick: (Movie) -> Unit) : RecyclerV
 
     private var selectedMovie: Movie? = null
     private var movieList : List<Movie> = emptyList()
-    private val differ : AsyncListDiffer<Movie> = AsyncListDiffer(this, SearchResultsAdapter.MovieDiffCallback())
+    private val differ : AsyncListDiffer<Movie> = AsyncListDiffer(this, MovieDiffCallback())
 
 
     fun updateDataset(newMovieList : List<Movie>) {
@@ -34,7 +33,7 @@ class SearchResultsAdapter(private val onItemClick: (Movie) -> Unit) : RecyclerV
             }
         }
 
-        fun bind (movie : Movie, isSelected : Boolean){
+        fun bind (movie : Movie){
             binding.movieTitle.text = movie.title
             if (!movie.poster_path.isNullOrEmpty()){
                 Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500/"
@@ -58,25 +57,8 @@ class SearchResultsAdapter(private val onItemClick: (Movie) -> Unit) : RecyclerV
 
     override fun onBindViewHolder(holder: SearchResultsViewHolder, position: Int) {
         val movie = movieList[position]
-        val isSelected = movie == selectedMovie
-        holder.bind(movie, isSelected)
+        holder.bind(movie)
     }
 
 
-    class MovieDiffCallback : DiffUtil.ItemCallback<Movie>() {
-
-        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem.id == newItem.id
-                    && oldItem.original_language == newItem.original_language
-                    && oldItem.overview == newItem.overview
-                    && oldItem.popularity == newItem.popularity
-                    && oldItem.poster_path == newItem.poster_path
-                    && oldItem.release_date == newItem.release_date
-                    && oldItem.title == newItem.title
-                    && oldItem.vote_average == newItem.vote_average
-        }
-        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
-            return oldItem == newItem
-        }
-    }
 }

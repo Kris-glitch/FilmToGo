@@ -61,5 +61,6 @@
     <string name="card_image">Card image</string>
     <string name="en">EN</string>
     <string name="_2023">2023</string>
+    <string name="delete_all">Delete All</string>
 
 </resources>

@@ -1,6 +1,6 @@
 package com.movieapp.filmtogo.data
 
-import android.content.Context
+
 import com.movieapp.filmtogo.data.local.DownloadsDao
 import com.movieapp.filmtogo.data.local.DownloadsDatabase
 import com.movieapp.filmtogo.data.remote.ApiClient
@@ -10,29 +10,26 @@ import com.movieapp.filmtogo.modelRemote.Movie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class Repository(){
+class Repository(downloadsDatabase: DownloadsDatabase){
 
-    private var context: Context? = null
-
-    private var db: DownloadsDatabase? = null
-    private var downloadsDao: DownloadsDao? = null
+    private var downloadsDao: DownloadsDao? = downloadsDatabase.getDownloadsDao()
 
     //Retrofit
     companion object {
         val apiClient : ApiClient by lazy { ApiClient() }
     }
 
-    suspend fun searchMovieByName (query: String, page: Int) : List<Movie>?{
+    suspend fun searchMovieByName (query: String, page: Int) : List<Movie>{
         return withContext(Dispatchers.IO) {
             apiClient.searchMovieByName(query, page)
         }
     }
-    suspend fun searchMovieByGenre (genreId: Int, page: Int) : List<Movie>? {
+    suspend fun searchMovieByGenre (genreId: Int, page: Int) : List<Movie> {
         return withContext(Dispatchers.IO) {
             apiClient.searchMovieByGenre(genreId, page)
         }
     }
-    suspend fun searchRecommended(genreIds: String, sortBy: String, page: Int) : List<Movie>? {
+    suspend fun searchRecommended(genreIds: String, sortBy: String, page: Int) : List<Movie> {
         return withContext(Dispatchers.IO) {
            apiClient.searchRecommended(genreIds, sortBy, page)
         }
@@ -63,15 +60,9 @@ class Repository(){
     }
     suspend fun getAllDownloadedMovies(): ArrayList<LocalMovies> {
         return withContext(Dispatchers.IO) {
-            downloadsDao?.getAllMovies() ?: throw IllegalStateException("getAllDownloadedMovies error, list is empty")
+            val list: List<LocalMovies> = downloadsDao?.getAllMovies() ?: emptyList()
+            return@withContext ArrayList(list)
         }
-    }
-
-    //Context
-    fun setContext(context: Context) {
-        this.context = context
-        db = DownloadsDatabase.invoke(context)
-        downloadsDao = db?.getDownloadsDao()
     }
 
 }

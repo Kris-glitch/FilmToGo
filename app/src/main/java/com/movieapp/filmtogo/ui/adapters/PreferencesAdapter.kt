@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.movieapp.filmtogo.R
 import com.movieapp.filmtogo.databinding.CategoriesItemBinding
@@ -83,14 +82,4 @@ class PreferencesAdapter : RecyclerView.Adapter<PreferencesAdapter.PreferencesVi
         return Color.rgb(red, green, blue)
     }
 
-    class GenreDiffCallback : DiffUtil.ItemCallback<Genre>() {
-
-        override fun areItemsTheSame(oldItem: Genre, newItem: Genre): Boolean {
-            return oldItem.id == newItem.id && oldItem.name == newItem.name
-        }
-
-        override fun areContentsTheSame(oldItem: Genre, newItem: Genre): Boolean {
-            return oldItem == newItem
-        }
-    }
 }

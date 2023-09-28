@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -210,11 +209,13 @@ class HomepageFragment : Fragment() {
 
     private fun openSearchDialog(navController: NavController) {
         val dialogView = LayoutInflater.from(context).inflate(R.layout.search_overlay_dialog, null)
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .create()
+
+        val dialog = AlertDialog.Builder(requireContext()).setView(dialogView).create()
 
         val searchView = dialogView.findViewById<SearchView>(R.id.searchViewOverlay)
+        searchView.requestFocus()
+        searchView.isIconified = false
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 navController.navigate(HomepageFragmentDirections.actionHomepageFragmentToSearchResultsFragment(query))
@@ -227,7 +228,7 @@ class HomepageFragment : Fragment() {
                 return false
             }
         })
-        searchView.requestFocus()
+
         dialog.show()
     }
 

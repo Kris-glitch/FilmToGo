@@ -4,6 +4,7 @@ plugins {
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
     id ("kotlin-parcelize")
+    id ("kotlin-kapt")
 
 
 }
@@ -15,7 +16,7 @@ android {
     defaultConfig {
         applicationId = "com.movieapp.filmtogo"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -53,6 +54,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
 
 }
 
@@ -125,10 +127,10 @@ dependencies {
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
     // Room
-    val roomVersion = "2.5.2"
+    val roomVersion = "2.4.2"
     implementation ("androidx.room:room-runtime:$roomVersion")
     implementation ("androidx.room:room-ktx:$roomVersion")
-    annotationProcessor("androidx.room:room-compiler:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
 
 
 

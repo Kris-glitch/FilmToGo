@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.movieapp.filmtogo.modelLocal.LocalMovies
 
-@Database (entities = [LocalMovies::class], version = 1)
+@Database (entities = [LocalMovies::class], version = 2)
 abstract class DownloadsDatabase : RoomDatabase(){
 
     abstract fun getDownloadsDao() : DownloadsDao
@@ -21,7 +21,9 @@ abstract class DownloadsDatabase : RoomDatabase(){
                 instance = it
             }
         }
-        private fun createDatabase(context: Context) = Room.databaseBuilder(context.applicationContext,DownloadsDatabase::class.java, "Downloads DB").build()
+        private fun createDatabase(context: Context) = Room.databaseBuilder(context.applicationContext,DownloadsDatabase::class.java, "Downloads DB")
+            .fallbackToDestructiveMigration()
+            .build()
 
     }
 }

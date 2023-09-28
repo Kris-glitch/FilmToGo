@@ -2,7 +2,6 @@ package com.movieapp.filmtogo.ui.fragments
 
 import android.app.Application
 import android.content.ContentValues
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -18,9 +17,6 @@ class DownloadsViewModel(val app: Application, private val repository: Repositor
 
     private val _downloadedMovies = MutableLiveData<ArrayList<LocalMovies>?>()
 
-    fun setRepositoryContext(context: Context) {
-        repository.setContext(context)
-    }
 
     fun insertMovie (movie: LocalMovies){
         viewModelScope.launch(Dispatchers.IO) {

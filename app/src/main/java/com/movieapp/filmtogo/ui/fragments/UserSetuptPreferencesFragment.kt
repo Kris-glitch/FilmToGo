@@ -1,12 +1,12 @@
 package com.movieapp.filmtogo.ui.fragments
 
-import com.movieapp.filmtogo.ui.adapters.PreferencesAdapter
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -18,6 +18,7 @@ import com.movieapp.filmtogo.data.ProvideStorage
 import com.movieapp.filmtogo.databinding.FragmentUserSetupPreferencesBinding
 import com.movieapp.filmtogo.modelRemote.Genre
 import com.movieapp.filmtogo.ui.activities.MainActivity
+import com.movieapp.filmtogo.ui.adapters.PreferencesAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,6 +39,10 @@ class UserSetuptPreferencesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val sharedPreferences = requireContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val setupDone = true
 
         val provideStorage = ProvideStorage()
 
@@ -72,6 +77,8 @@ class UserSetuptPreferencesFragment : Fragment() {
                     lifecycleScope.launch(Dispatchers.IO){
                         provideStorage.saveDataForRecommendation(selectedGenres)
                         withContext(Dispatchers.Main) {
+                            editor.putBoolean("setupDone", setupDone);
+                            editor.apply();
                             it.findNavController().navigate(R.id.action_userSetuptPreferencesFragment_to_homepageFragment)
                         }
                     }

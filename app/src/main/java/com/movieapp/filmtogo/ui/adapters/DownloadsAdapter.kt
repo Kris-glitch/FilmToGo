@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.movieapp.filmtogo.R
-import com.movieapp.filmtogo.databinding.FavouritesDownloadsItemBinding
+import com.movieapp.filmtogo.databinding.FavoritesDownloadsItemBinding
 import com.movieapp.filmtogo.modelLocal.LocalMovies
 
-class DownloadsAdapter () : RecyclerView.Adapter<DownloadsAdapter.DownloadsViewHolder>() {
+class DownloadsAdapter() : RecyclerView.Adapter<DownloadsAdapter.DownloadsViewHolder>() {
+
 
     private var movieList : ArrayList<LocalMovies> = arrayListOf()
 
@@ -22,12 +23,13 @@ class DownloadsAdapter () : RecyclerView.Adapter<DownloadsAdapter.DownloadsViewH
         movieList = newMovieList
     }
 
-    fun deleteItem (position: Int){
+    fun delete(position : Int){
         movieList.removeAt(position)
-        notifyDataSetChanged()
     }
 
-    inner class DownloadsViewHolder (val binding : FavouritesDownloadsItemBinding) : RecyclerView.ViewHolder(binding.root){
+
+    inner class DownloadsViewHolder (val binding : FavoritesDownloadsItemBinding)
+        : RecyclerView.ViewHolder(binding.root){
         fun bind (movie : LocalMovies){
             binding.apply {
                 downMovieTitle.text = movie.title
@@ -44,7 +46,7 @@ class DownloadsAdapter () : RecyclerView.Adapter<DownloadsAdapter.DownloadsViewH
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DownloadsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding : FavouritesDownloadsItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.favourites_downloads_item, parent, false)
+        val binding : FavoritesDownloadsItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.favorites_downloads_item, parent, false)
         return DownloadsViewHolder(binding)
     }
 
@@ -69,5 +71,6 @@ class DownloadsAdapter () : RecyclerView.Adapter<DownloadsAdapter.DownloadsViewH
             return oldItem == newItem
         }
     }
+
 
 }

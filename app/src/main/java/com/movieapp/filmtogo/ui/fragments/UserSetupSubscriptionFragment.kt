@@ -1,6 +1,8 @@
 package com.movieapp.filmtogo.ui.fragments
 
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 
 import androidx.fragment.app.Fragment
@@ -71,8 +73,8 @@ class UserSetupSubscriptionFragment : Fragment() {
             if (selectedSubscription != null) {
                 try {
                     lifecycleScope.launch(Dispatchers.IO) {
-                        provideUser.updateUserSubscription(selectedSubscription!!)
-
+                        val updatedSubscription = provideUser.updateUserSubscription(selectedSubscription!!)
+                        saveSubscriptionToSharedPreferences(updatedSubscription)
                         if (edit == "edit"){
                             withContext(Dispatchers.Main) {
                                 Navigation.findNavController(view).navigateUp()
@@ -92,6 +94,14 @@ class UserSetupSubscriptionFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please select a subscription.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun saveSubscriptionToSharedPreferences(updatedSubscription: String) {
+        val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putString("updatedSubscription", updatedSubscription)
+        editor.apply()
+
     }
 
     private fun getSubscriptionList(): List<Subscription> {
