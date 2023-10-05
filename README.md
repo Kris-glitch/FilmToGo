@@ -28,17 +28,19 @@ Uses Activities, Fragments, Navigation, Kotlin coroutines, Live Data
 
 <a href="https://www.freepik.com/free-vector/naive-cinema-stickers-set_34678601.htm">Image by pikisuperstar</a> on Freepik
 
-![login](https://github.com/Kris-glitch/FilmToGo/assets/78586563/10e41918-be38-4f6c-b6aa-2aec9712be0c)
-![signup](https://github.com/Kris-glitch/FilmToGo/assets/78586563/4340a68a-e532-40c5-bd31-33377411b555)
-![splashscreen](https://github.com/Kris-glitch/FilmToGo/assets/78586563/fccc2377-d4e7-4a49-bd67-68acd2195223)
-![subscription](https://github.com/Kris-glitch/FilmToGo/assets/78586563/9fedac77-50f3-4e93-bd50-348d68072685)
-![recom](https://github.com/Kris-glitch/FilmToGo/assets/78586563/19dcca61-4d1c-4050-950b-efcdd98b53b1)
-![cardInfo](https://github.com/Kris-glitch/FilmToGo/assets/78586563/ce33f4b4-dfe1-45ab-b3ff-268ea4bea9aa)
-![homepage](https://github.com/Kris-glitch/FilmToGo/assets/78586563/28bb13c9-f508-49e8-a823-c8c9084935b2)
-![moviedetails](https://github.com/Kris-glitch/FilmToGo/assets/78586563/8a0f646e-5111-4a72-a188-52899da6a58b)
-![search](https://github.com/Kris-glitch/FilmToGo/assets/78586563/b5fa8d25-9697-485c-9527-029a51747ad4)
-![profile](https://github.com/Kris-glitch/FilmToGo/assets/78586563/d69d3562-ab29-45f5-a8f9-c16897c21fdf)
-![downloads](https://github.com/Kris-glitch/FilmToGo/assets/78586563/8ab4d7a3-c4c7-4012-8c71-6f172cd1ea34)
-![swipe functionallity](https://github.com/Kris-glitch/FilmToGo/assets/78586563/ac108b7a-b0ab-48dd-b845-545345ce2442)
-![send list of movies](https://github.com/Kris-glitch/FilmToGo/assets/78586563/caceaae3-e76f-4860-a72d-296d1d94c398) 
+![login](https://github.com/Kris-glitch/FilmToGo/assets/78586563/690d35a7-6151-47ea-92b9-f0f1b26fb14a)
+![signup](https://github.com/Kris-glitch/FilmToGo/assets/78586563/f1f9c5d3-efa6-4799-96b5-553163cbb730)
+![splashscreen](https://github.com/Kris-glitch/FilmToGo/assets/78586563/92c17551-7f2f-452c-b575-9c788db81d6f)
+![subscription](https://github.com/Kris-glitch/FilmToGo/assets/78586563/04250b56-b935-4359-8b52-ed5d540b9865)
+![cardInfo](https://github.com/Kris-glitch/FilmToGo/assets/78586563/fa3e9ea9-4b23-42b5-94e4-e046cd0800b3)
+![recom](https://github.com/Kris-glitch/FilmToGo/assets/78586563/d25eca27-e487-4795-acf1-1d20e3a2689c)
+![homepage](https://github.com/Kris-glitch/FilmToGo/assets/78586563/5d4e39a1-bc49-4fd5-9bc7-ec5845b1bad9)
+![moviedetails](https://github.com/Kris-glitch/FilmToGo/assets/78586563/ef5e8ab7-1ef5-4307-8fc6-2be434b2a379)
+![search](https://github.com/Kris-glitch/FilmToGo/assets/78586563/31523da8-b1b6-48f4-afda-773f01530bf1)
+![profile](https://github.com/Kris-glitch/FilmToGo/assets/78586563/84264d23-465f-4156-b53f-b00b498cb8bc)
+![downloads](https://github.com/Kris-glitch/FilmToGo/assets/78586563/8e716c22-5e01-473e-9cfc-7e9550f62259)
+![send list of movies](https://github.com/Kris-glitch/FilmToGo/assets/78586563/a699b46e-ed13-443f-b8f9-6a4121d1e360)
+
+
+
 
