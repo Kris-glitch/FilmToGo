@@ -40,5 +40,5 @@ Uses Activities, Fragments, Navigation, Kotlin coroutines, Live Data
 ![profile](https://github.com/Kris-glitch/FilmToGo/assets/78586563/d69d3562-ab29-45f5-a8f9-c16897c21fdf)
 ![downloads](https://github.com/Kris-glitch/FilmToGo/assets/78586563/8ab4d7a3-c4c7-4012-8c71-6f172cd1ea34)
 ![swipe functionallity](https://github.com/Kris-glitch/FilmToGo/assets/78586563/ac108b7a-b0ab-48dd-b845-545345ce2442)
-![send list of movies](https://github.com/Kris-glitch/FilmToGo/assets/78586563/caceaae3-e76f-4860-a72d-296d1d94c398)
+![send list of movies](https://github.com/Kris-glitch/FilmToGo/assets/78586563/caceaae3-e76f-4860-a72d-296d1d94c398) 
 
