@@ -1,4 +1,5 @@
-# FilmToGo
+# FilmToGo - Android movie streaming app / Kotlin / Fragments / Coroutines / Live Data / xml
+
 Film ToGo is a movie streaming app for Android. The app uses Kotlin, XML, Room, and Firebase technologies.
 Allows users to sign up or log in with password validation such as min of 8 chars, min one uppercase letter, and min one number in the password. Firebase is used here for user authentication.
 
